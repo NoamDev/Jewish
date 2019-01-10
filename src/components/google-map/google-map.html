@@ -2,25 +2,22 @@
   <div id="loading-text" *ngIf="!hasError">טוען מפה...</div>
   <div id="error" *ngIf="hasError">
     <div id="help">לא ניתן למצוא את מיקומך</div>
-    <div id="description">בדוק שאכן שירותי המיקום מופעלים.<br> בנוסף וודא שישנה הרשאת גישה למיקום המכשיר עבור אפליקציה זו</div>
+    <div id="description">בדוק שאכן שירותי המיקום מופעלים.<br> בנוסף וודא שישנה הרשאת גישה למיקום המכשיר עבור אפליקציה
+      זו</div>
     <button ion-button (click)="tryGetCurrentLocationAgain()">נסה שוב</button>
     <button ion-button (click)="goToLocationSettings()">הגדרות שירותי מיקום</button>
     <div id="manual-locate">
       <div margin-top>או לחלופין מקם ידנית</div>
       <ion-item>
-        <ion-input #placeAutoCompleteInput fkPlaceAutoComplete (placeSelected)="onPlaceSelected($event)"
-                   placeholder="הזן כתובת..."
-                   clearInput
-                   dir="rtl"
-                   [inputElement]="placeAutoCompleteInput._native?.nativeElement"></ion-input>
+        <ion-input #placeAutoCompleteInput fkPlaceAutoComplete (placeSelected)="onPlaceSelected($event)" placeholder="הזן כתובת..."
+          clearInput dir="rtl" [inputElement]="placeAutoCompleteInput._native?.nativeElement"></ion-input>
       </ion-item>
-      <button ion-button color="secondary" (click)="mapWithManualLocation()" margin-top
-              [disabled]="!manualCenter.isFullyValid()">מקם ידנית</button>
+      <button ion-button color="secondary" (click)="mapWithManualLocation()" margin-top [disabled]="!manualCenter.isFullyValid()">מקם
+        ידנית</button>
     </div>
 
   </div>
 </div>
 <div [attr.id]="canvasElementId" style="width: 100%;height: 100%;"></div>
-<fk-locate-button class="fab-size"
-                  [map]="map" *ngIf="map">
+<fk-locate-button class="fab-size" [map]="map" *ngIf="map">
 </fk-locate-button>

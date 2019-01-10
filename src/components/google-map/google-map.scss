@@ -12,6 +12,7 @@ fk-google-map{
     text-align: center;
     align-items: center;
     direction: rtl;
+    overflow-y: scroll;
     #loading-text{
       font-size: 2.5rem;
     }
@@ -45,9 +46,6 @@ fk-google-map{
         width: 100%;
         height: 100%;
       }
-    }
-    .window-info-header{
-      //display: flex;
     }
 
     .window-info-address{

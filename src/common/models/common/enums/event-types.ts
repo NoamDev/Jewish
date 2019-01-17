@@ -1,4 +1,4 @@
 export enum EventTypes {
-  Prayer = 'תפילה',
-  Lesson = 'שיעור'
+  Prayer = 'prayer',
+  Lesson = 'lesson'
 }

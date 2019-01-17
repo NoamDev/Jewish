@@ -20,12 +20,12 @@ export type SynagogueOptions = {
 export function TranslateSynagogueOption(option: SynagogueOption){
   switch (option){
     case SynagogueOption.DisabledAccess:
-      return "נגישות לנכים";
+      return "disabled_access";
     case SynagogueOption.Mikve:
-      return "מקווה";
+      return "mikve";
     case SynagogueOption.Parking:
-      return "חנייה";
+      return "parking";
     case SynagogueOption.Shtiblach:
-      return "שטיבלך";
+      return "stiebelach";
   }
 }

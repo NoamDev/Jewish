@@ -2,6 +2,7 @@ import {Directive, EventEmitter, HostListener, Output} from '@angular/core';
 import {MapObject} from "../../common/models/map-objects/map-objects";
 import {LocationPickerComponent} from "../../components/location-picker/location-picker";
 import {ModalController} from "ionic-angular";
+import {AbstractValueAccessor, MakeProvider} from "../../common/component-helpers/abstract-value-accessor";
 
 @Directive({
   selector: '[fkLocationPickerModal]'

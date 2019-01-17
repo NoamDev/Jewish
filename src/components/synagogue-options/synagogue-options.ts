@@ -1,27 +1,30 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   CreateSynagogueOptions,
   SynagogueOption,
   TranslateSynagogueOption
 } from "../../common/models/common/enums/synagogue-option";
-import {AbstractValueAccessor, MakeProvider} from "../../common/component-helpers/abstract-value-accessor";
+import { AbstractValueAccessor, MakeProvider } from "../../common/component-helpers/abstract-value-accessor";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({
   selector: 'fk-synagogue-options',
   templateUrl: 'synagogue-options.html',
   providers: [MakeProvider(SynagogueOptionsComponent)]
 })
-export class SynagogueOptionsComponent extends AbstractValueAccessor{
+export class SynagogueOptionsComponent extends AbstractValueAccessor {
 
-  private readonly selectedOptions: {[option: string]: boolean | null};
+  private readonly selectedOptions: { [option: string]: boolean | null };
 
-  constructor() {
+  constructor(
+    public lngService: LanguageServiceProvider
+  ) {
     super();
     console.log('Hello AccessibilityOptionsComponent Component');
     this.selectedOptions = CreateSynagogueOptions();
   }
 
-  isOptionChecked(accessibility: string){
+  isOptionChecked(accessibility: string) {
     return this.selectedOptions[accessibility] == true;
   }
 
@@ -30,10 +33,10 @@ export class SynagogueOptionsComponent extends AbstractValueAccessor{
     this.value = this.selectedOptions;
   }
 
-  getOptionsList(){
+  getOptionsList() {
     return Object.keys(SynagogueOption).filter(opt => isNaN(opt as any)).map(opt => ({
       opt: opt,
-      translation: TranslateSynagogueOption(SynagogueOption[opt])
+      translation: this.lngService.getOneLanguage(TranslateSynagogueOption(SynagogueOption[opt]))
     }))
   }
 }

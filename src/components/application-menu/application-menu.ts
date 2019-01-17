@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Nav, ViewController} from "ionic-angular";
+import {AddSynagoguePage} from "../../pages/add-synagogue/add-synagogue";
 
 declare type MenuPageItem = { title: string, componentName: string, args?: any };
 declare type PagesDictionary = { [componentName: string]: MenuPageItem}
@@ -28,8 +29,6 @@ export class ApplicationMenuComponent {
 
   initPages(){
     this.pages = {};
-    // this.pages.AddSynagoguePage = {title: "הוספת בית כנסת", componentName: "AddSynagoguePage"};
-    // this.pages.SynagogueDetails = {title: "פרטי בית כנסת", componentName: "SynagogueDetailsPage"};
   }
 
   registerToNavEvents(){
@@ -39,6 +38,7 @@ export class ApplicationMenuComponent {
   }
 
   getPagesTitle() {
+    console.log(Object.keys(this.pages).map(compName => this.pages[compName]));
     return Object.keys(this.pages).map(compName => this.pages[compName]);
   }
 

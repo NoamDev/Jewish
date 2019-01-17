@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { GoogleMapProvider } from "../../providers/google-map/google-map-provider";
 import { GoogleMap } from "../../providers/google-map/google-map";
 import { ReplaySubject } from "rxjs/ReplaySubject";
@@ -7,6 +7,9 @@ import MapOptions = google.maps.MapOptions;
 import { MapObject } from "../../common/models/map-objects/map-objects";
 
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
+import { Platform } from 'ionic-angular';
+
 
 @Component({
   selector: 'fk-google-map',
@@ -16,7 +19,7 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
 
   private static mapCounter = 0;
 
-  public hasError = false;
+  private hasError = false;
 
   public isMapReady = false;
   public readonly canvasElementId: string;
@@ -33,18 +36,42 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   constructor(private mapProvider: GoogleMapProvider,
     private cdRef: ChangeDetectorRef,
     private locationAccuracy: LocationAccuracy,
-    private openNativeSettings: OpenNativeSettings) {
+    private openNativeSettings: OpenNativeSettings,
+    public lngService: LanguageServiceProvider,
+    public plt: Platform,
+    // public translate: TranslateService,
+  ) {
+    this.lngService.setLanguage();
+
+    this.lngService.currentLng = localStorage.getItem('currentLng');
+    this.lngService.direction = localStorage.getItem('direction');
+
     console.log('Hello GoogleMapComponent Component');
     GoogleMapComponent.mapCounter++;
     this.canvasElementId = `google-map-${GoogleMapComponent.mapCounter}`;
     this.onMapCreated = new ReplaySubject<GoogleMap>(1);
     this.manualCenter = new MapObject();
+    console.log(this.map);
   }
 
   async ngAfterViewInit() {
-    console.log("lsjdhflajsdflajsdf");
-    // this.createMap(true);
-    this.convertGPS();
+    console.log("ngAfterViewInit");
+    if (!this.plt.is('mobileweb')) {
+      this.convertGPS();
+    } else {
+      this.createMap(true);
+      this.mapSwitchDetect(true);
+    }
+    // let isApp = (!document.URL.startsWith('http') || document.URL.startsWith('http://localhost:8080'));
+    // console.log(isApp);
+    // if (isApp) {
+    //   console.log('mobile');
+    //   this.convertGPS();
+    // } else {
+    //   console.log('browser');
+    //   this.createMap(true);
+    //   this.mapSwitchDetect(true);
+    // }
   }
 
   convertGPS() {
@@ -93,6 +120,7 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log('ngOnDestroy');
     if (!this.map)
       return;
     this.map.disableLocationTracking();
@@ -108,7 +136,6 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
     try {
       let mapElement = document.getElementById(this.canvasElementId) as HTMLDivElement;
       console.log(this.canvasElementId);
-      console.log(mapElement);
       this.map = await this.mapProvider.createMap(mapElement, mapOptions);
       if (withLocationTracking) {
         this.map.enableLocationTracking();

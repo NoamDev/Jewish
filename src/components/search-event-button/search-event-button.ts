@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {NavController} from "ionic-angular";
+import { Component } from '@angular/core';
+import {NavController, NavOptions} from "ionic-angular";
 
 @Component({
   selector: 'fk-search-event-button',

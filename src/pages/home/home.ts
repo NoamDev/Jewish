@@ -1,19 +1,22 @@
-import {Component, ViewChild} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {SearchEventPage} from "../search-event/search-event";
-import {AddSynagoguePage} from "../add-synagogue/add-synagogue";
-import {NoScrollDirective} from "../../directives/no-scroll/no-scroll";
-import {EventBasedMapObjectProvider} from "../../providers/server-providers/event-based-map-object.provider";
-import {EventBasedMapObject} from "../../common/models/map-objects/map-objects";
-import {Subject} from "rxjs/Subject";
-import {SearchResultsViewComponent} from "../../components/search-results-view/search-results-view";
-import {UserSettingsPage} from "../user-settings/user-settings";
-import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
-import {fromPromise} from "rxjs/observable/fromPromise";
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
+import { SearchEventPage } from "../search-event/search-event";
+import { AddSynagoguePage } from "../add-synagogue/add-synagogue";
+import { NoScrollDirective } from "../../directives/no-scroll/no-scroll";
+import { EventBasedMapObjectProvider } from "../../providers/server-providers/event-based-map-object.provider";
+import { EventBasedMapObject } from "../../common/models/map-objects/map-objects";
+import { LocationTrackingProvider } from "../../providers/location-tracking/location-tracking";
+import { Subject } from "rxjs/Subject";
+import { SearchResultsViewComponent } from "../../components/search-results-view/search-results-view";
+import { UserSettingsPage } from "../user-settings/user-settings";
+import { UserSettingsProvider } from "../../providers/user-settings/user-settings";
+import { fromPromise } from "rxjs/observable/fromPromise";
 import "rxjs/add/operator/zip";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
-import {DoubleBackToExitProvider} from "../../providers/double-back-to-exit/double-back-to-exit";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
+
+const EarthRadiusInKm = 6378
 
 @Component({
   selector: 'page-home',
@@ -24,17 +27,31 @@ export class HomePage {
 
   @ViewChild("resultsComp") resultsComponent: SearchResultsViewComponent;
 
-  public nearMapObjects = new Subject<EventBasedMapObject[]>();
+  public nearMapObjects: Subject<EventBasedMapObject[]>;
 
   // private prevSearchedLocation: google.maps.LatLngLiteral;
 
-  constructor(
-    public navCtrl: NavController,
+  constructor(public navCtrl: NavController,
+    private locationTracking: LocationTrackingProvider,
     private mapObjectProvider: EventBasedMapObjectProvider,
     private userSettings: UserSettingsProvider,
-    dblBackService: DoubleBackToExitProvider
-  ) {
-    dblBackService.forPage(HomePage);
+    private navParams: NavParams,
+    private platform: Platform,
+    public lngService: LanguageServiceProvider,
+    private alertController: AlertController) {
+    this.lngService.setLanguage();
+
+    console.log(this.lngService.currentLng);
+
+    this.platform.registerBackButtonAction(() => {
+      alertController.create({
+        buttons: [{ text: "Yes", handler: () => this.platform.exitApp() }, { text: "No" }],
+        title: "Close",
+        subTitle: "Are you sure you want to exit the app?"
+      });
+    });
+    this.nearMapObjects = new Subject<EventBasedMapObject[]>();
+    console.log(this.nearMapObjects);
   }
 
   ngAfterViewInit() {
@@ -46,6 +63,7 @@ export class HomePage {
       }).subscribe(res => {
         if (res.length > 0)
           this.nearMapObjects.next(res);
+        console.log(this.nearMapObjects);
       });
   }
 
@@ -58,6 +76,7 @@ export class HomePage {
       }).subscribe(res => {
         if (res.length > 0)
           this.nearMapObjects.next(res);
+        console.log(this.nearMapObjects);
       });
   }
 
@@ -70,6 +89,7 @@ export class HomePage {
   }
 
   goToUserSettings() {
+    // this.navCtrl.pop();
     this.navCtrl.push(UserSettingsPage);
   }
 }

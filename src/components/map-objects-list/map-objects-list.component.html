@@ -3,7 +3,7 @@
     <fk-map-object-card [mapObject]="mapObject"></fk-map-object-card>
   </div>
   <div margin-top *ngIf="(mapObjects | async)?.length == 0" text-center>
-    אין בתי כנסת להצגה
+    {{ 'there_are_no_synagogues' | translate }}
   </div>
 </ion-content>
 

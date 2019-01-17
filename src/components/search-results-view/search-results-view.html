@@ -1,16 +1,16 @@
 <ion-header no-border>
-  <ion-navbar *ngIf="canGoBack">
+  <!-- <ion-navbar *ngIf="canGoBack">
     <ion-navbar color="white">
-      <ion-title text-center>תוצאות חיפוש</ion-title>
+      <ion-title text-center>{{'search_result'|translate}}</ion-title>
     </ion-navbar>
-  </ion-navbar>
+  </ion-navbar> -->
   <ion-toolbar>
     <ion-segment mode="md" [(ngModel)]="activeSegment">
       <ion-segment-button value="map">
-        מפת בתי כנסת
+        {{ 'map_of_synagogues' | translate }}
       </ion-segment-button>
       <ion-segment-button value="list">
-        תצוגת רשימה
+        {{ 'list_view' | translate }}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>

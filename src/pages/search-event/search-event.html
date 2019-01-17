@@ -1,63 +1,58 @@
 <ion-header no-border>
   <ion-navbar color="white">
-    <ion-title text-center>חיפוש בית כנסת</ion-title>
+    <ion-title text-center>{{'search_for_synagogue'|translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <form #form="ngForm" dir="rtl">
+  <form #form="ngForm" [dir]="lngService.direction">
     <ion-item>
-      <ion-input [(ngModel)]="searchEvent.name" name="name"
-                 placeholder="חפש לפי שם בית כנסת..." clearInput dir="rtl"></ion-input>
+      <ion-input [(ngModel)]="searchEvent.name" name="name" placeholder="{{'search_by_synagogue_name'|translate}}..."
+        clearInput [dir]="lngService.direction"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>כתובת</ion-label>
-      <ion-input #placeAutoCompleteInput fkPlaceAutoComplete name="address"
-                 [inputElement]="placeAutoCompleteInput._native?.nativeElement"
-                 (placeSelected)="onMapObjectChanged($event)"
-                 clearInput placeholder="חפש ביחס לכתובת" dir="rtl"></ion-input>
+      <ion-label stacked>{{'address'|translate}}</ion-label>
+      <ion-input #placeAutoCompleteInput fkPlaceAutoComplete name="address" [inputElement]="placeAutoCompleteInput._native?.nativeElement"
+        (placeSelected)="onMapObjectChanged($event)" clearInput placeholder="{{'search_for_address'|translate}}" [dir]="lngService.direction"></ion-input>
 
-      <a item-end margin-left fkLocationPickerModal name="address"
-         (locationSelected)="onModalClosed($event)">מפה</a>
+      <a item-end margin-left fkLocationPickerModal name="address" (locationSelected)="onModalClosed($event)">{{'map'|translate}}</a>
     </ion-item>
 
     <ion-card margin-top>
 
-      <ion-row dir="rtl">
+      <ion-row [dir]="lngService.direction">
 
         <ion-col>
           <ion-item>
-            <ion-label stacked>החל מ-</ion-label>
-            <ion-datetime [(ngModel)]="searchEvent.startTime" name="startTime"
-                          displayFormat="HH:mm" pickerFormat="HH:mm" placeholder="בחר שעה"></ion-datetime>
+            <ion-label stacked>{{'starting_from'|translate}}-</ion-label>
+            <ion-datetime [(ngModel)]="searchEvent.startTime" name="startTime" displayFormat="HH:mm" pickerFormat="HH:mm"
+              placeholder="{{'select_time'|translate}}"></ion-datetime>
           </ion-item>
         </ion-col>
 
         <ion-col>
           <ion-item>
-            <ion-label stacked>עד ל-</ion-label>
-            <ion-datetime [(ngModel)]="searchEvent.endTime" name="endTime"  displayFormat="HH:mm" pickerFormat="HH:mm"
-                          [min]="searchEvent.startTime" placeholder="בחר שעה"></ion-datetime>
+            <ion-label stacked>{{'up_to'|translate}}-</ion-label>
+            <ion-datetime [(ngModel)]="searchEvent.endTime" name="endTime" displayFormat="HH:mm" pickerFormat="HH:mm"
+              [min]="searchEvent.startTime" placeholder="{{'select_time'|translate}}"></ion-datetime>
           </ion-item>
         </ion-col>
 
       </ion-row>
       <ion-item dir="ltr">
-        <ion-label>טווח רדיוס</ion-label>
-        <ion-range [min]="1" [max]="25" [pin]="true" name="radius"
-                   [(ngModel)]="searchEvent.maxRadiusRange">
+        <ion-label>{{'radius_range'|translate}}</ion-label>
+        <ion-range [min]="1" [max]="25" [pin]="true" name="radius" [(ngModel)]="searchEvent.maxRadiusRange">
           <ion-label range-left>1</ion-label>
           <ion-label range-right>25</ion-label>
         </ion-range>
       </ion-item>
 
       <ion-item>
-        <ion-label fixed>נוסח תפילה</ion-label>
-        <fk-prayer-version-options [(ngModel)]="searchEvent.prayerNosach" name="prayerNosach"
-                                   title="בחר נוסח תפילה"
-                                   placeholder="בחר נוסח תפילה" item-content></fk-prayer-version-options>
+        <ion-label fixed>{{'tfila_nosahc'|translate}}</ion-label>
+        <fk-prayer-version-options [(ngModel)]="searchEvent.prayerNosach" name="prayerNosach" title="{{'choose_a_prayer_form'|translate}}"
+          placeholder="{{'choose_a_prayer_form'|translate}}" item-content></fk-prayer-version-options>
       </ion-item>
     </ion-card>
 
@@ -65,7 +60,7 @@
       <fk-synagogue-options [(ngModel)]="searchEvent.synagogueOptions" name="options" class="form-background-color"></fk-synagogue-options>
 
       <div margin>
-        <div text-center margin-bottom>באילו ימים?</div>
+        <div text-center margin-bottom>{{'what_days'|translate}}</div>
         <fk-day-range [(ngModel)]="searchEvent.daysRange" name="daysRange"></fk-day-range>
       </div>
     </ion-card>
@@ -75,10 +70,8 @@
 </ion-content>
 
 <ion-footer padding text-center [attr.disabled]="!isFormValid()">
-  <button id="search-button" class="transparent" (click)="search()" dir="rtl" [disabled]="!isFormValid()">
-    <span>חפש מניינים</span>
+  <button id="search-button" class="transparent" (click)="search()" [dir]="lngService.direction" [disabled]="!isFormValid()">
+    <span>{{'search_for_miners'|translate}}</span>
     <ion-icon name="search"></ion-icon>
   </button>
 </ion-footer>
-
-

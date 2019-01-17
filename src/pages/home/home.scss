@@ -1,26 +1,47 @@
 page-home {
-  ion-header {
-    background-color: map_get($colors, white);
-
-    .toolbar-background {
-      background-color: map_get($colors, white);
+    ion-header {
+        background-color: map_get($colors, white);
+        .toolbar-background {
+            background-color: map_get($colors, white);
+        }
+        #options-button {
+            background-color: transparent;
+            margin-left: 10px;
+            margin-top: 10px;
+            position: absolute;
+            top: calc(6%);
+            justify-content: center;
+            align-items: center;
+            ion-icon {
+                font-size: 2em;
+            }
+        }
+        #add-synagogue-button {
+            background-color: transparent;
+            margin-right: 10px;
+            margin-top: 10px;
+            position: absolute;
+            top: calc(6%);
+            right: 0;
+            justify-content: center;
+            align-items: center;
+            ion-icon {
+                font-size: 2em;
+            }
+        }
     }
-  }
-
-  .search-bar{
-    background-color: #f9f9f9;
-    width: 90%;
-    margin:auto;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom:10px;
-
-    ion-icon[name=search]{
-      color: map_get($colors, dark);
+    .search-bar {
+        background-color: #f9f9f9;
+        width: 90%;
+        margin: auto;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        ion-icon[name=search] {
+            color: map_get($colors, dark);
+        }
+        .item-inner {
+            border-bottom: none !important;
+        }
     }
-
-    .item-inner{
-      border-bottom: none !important;
-    }
-  }
 }

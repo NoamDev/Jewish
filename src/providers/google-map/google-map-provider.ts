@@ -3,7 +3,7 @@ import GoogleMapsLoader = require("google-maps");
 import MapOptions = google.maps.MapOptions;
 import GeocoderResult = google.maps.GeocoderResult;
 import "rxjs/add/operator/filter";
-import { GoogleMap } from "./google-map";
+import {GoogleMap} from "./google-map";
 import "rxjs/add/operator/retry";
 import { LocationTrackingProvider } from "../location-tracking/location-tracking";
 import { merge } from "lodash-es";

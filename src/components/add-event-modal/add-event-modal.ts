@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
-import { Event } from "../../common/models/event/event";
-import { FormBuilder, FormControl, FormGroup, Validator, Validators } from "@angular/forms";
-import { StaticValidators } from "../../validators/static-validators";
-import { DatePipe } from "@angular/common";
-import { ViewController } from "ionic-angular";
+import {Component} from '@angular/core';
+import {Event} from "../../common/models/event/event";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {StaticValidators} from "../../validators/static-validators";
+import {ViewController} from "ionic-angular";
+import {PrayerEvent} from "../../common/models/event/prayer-event";
+import {EventTypes} from "../../common/models/common/enums/event-types";
+import {PrintFormValidationErrors} from "../../common/models/common/utils";
+import {LessonEvent} from "../../common/models/event/lesson-event";
+import {PrayerType} from "../../common/models/common/enums/prayer-type";
+import {LanguageServiceProvider} from '../../providers/language-service/language-service';
 import moment = require("moment");
-import { PrayerEvent } from "../../common/models/event/prayer-event";
-import { EventTypes } from "../../common/models/common/enums/event-types";
-import { PrintFormValidationErrors } from "../../common/models/common/utils";
-import { LessonEvent } from "../../common/models/event/lesson-event";
-import { PrayerType } from "../../common/models/common/enums/prayer-type";
-import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({
   selector: 'fk-event-days-and-time-modal',
   templateUrl: 'add-event-modal.html',
-  providers: [DatePipe]
 })
 export class AddEventModalComponent {
 
@@ -24,7 +22,6 @@ export class AddEventModalComponent {
   eventTypes: string[];
 
   constructor(private formBuilder: FormBuilder,
-    private datePipe: DatePipe,
     public lngService: LanguageServiceProvider,
     private viewCtrl: ViewController) {
     console.log('Hello EventDaysAndTimeModalComponent Component');
@@ -33,7 +30,7 @@ export class AddEventModalComponent {
     this.eventTypes = this.getEventTypes();
     this.form = this.buildForm();
     this.eventTypes = this.lngService.setArrayLanguage(this.eventTypes);
-    
+
     console.log(this.eventTypes);
 
     this.lngService.currentLng = localStorage.getItem('currentLng');
@@ -86,7 +83,7 @@ export class AddEventModalComponent {
     }
     this.event.repeatedDays = [];
     this.form.addControl('startsAt', new FormControl('', [StaticValidators.ValidDate('HH:mm'),
-    StaticValidators.ValidDateIsBefore(() => this.event.endTime, "HH:mm")]))
+    StaticValidators.ValidDateIsBefore(() => this.event.endTime, "HH:mm")]));
     this.form.addControl('endsAt', new FormControl('', [StaticValidators.ValidDateIsAfter(() => this.event.startTime, "HH:mm")]));
     this.form.addControl('repeatedDays', new FormControl('', [StaticValidators.ArrayLengthInRange(1, 8)]));
   }

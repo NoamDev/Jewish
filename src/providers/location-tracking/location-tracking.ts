@@ -1,11 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
 import {Geolocation, GeolocationOptions, Geoposition} from "@ionic-native/geolocation";
-import LatLngLiteral = google.maps.LatLngLiteral;
-import {Observable} from "rxjs/Observable";
-import {fromPromise} from "rxjs/observable/fromPromise";
 import "rxjs/add/operator/finally";
 import {Config} from "@app/env";
+import LatLngLiteral = google.maps.LatLngLiteral;
 
 
 @Injectable()

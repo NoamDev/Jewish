@@ -1,15 +1,15 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { IonicPage, ModalController, NavController, NavParams, ToastController } from 'ionic-angular';
-import { NgForm } from "@angular/forms";
-import { Synagogue } from "../../common/models/map-objects/synagogue";
-import { EventBasedMapObjectProvider } from "../../providers/server-providers/event-based-map-object.provider";
-import { Event } from "../../common/models/event/event";
-import { AddEventModalComponent } from "../../components/add-event-modal/add-event-modal";
-import { EventTypes } from "../../common/models/common/enums/event-types";
-import { StaticValidators } from "../../validators/static-validators";
-import { MapObject } from "../../common/models/map-objects/map-objects";
-import { PlaceAutoComplete } from "../../directives/place-autocomplete/place-autocomplete";
-import { LanguageServiceProvider } from '../../providers/language-service/language-service';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import {IonicPage, ModalController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {NgForm} from "@angular/forms";
+import {Synagogue} from "../../common/models/map-objects/synagogue";
+import {EventBasedMapObjectProvider} from "../../providers/server-providers/event-based-map-object.provider";
+import {Event} from "../../common/models/event/event";
+import {AddEventModalComponent} from "../../components/add-event-modal/add-event-modal";
+import {EventTypes} from "../../common/models/common/enums/event-types";
+import {StaticValidators} from "../../validators/static-validators";
+import {MapObject} from "../../common/models/map-objects/map-objects";
+import {PlaceAutoComplete} from "../../directives/place-autocomplete/place-autocomplete";
+import {LanguageServiceProvider} from '../../providers/language-service/language-service';
 
 @IonicPage()
 @Component({
@@ -56,7 +56,7 @@ export class AddSynagoguePage {
 
   async submitNewSynagogue() {
     try {
-      const res = await this.mapObjectProvider.create(this.synagogue).toPromise();
+      await this.mapObjectProvider.create(this.synagogue).toPromise();
       this.toastCtrl.create({ message: 'בית הכנסת נוסף בהצלחה' });
     }
     catch (e) {
@@ -104,7 +104,7 @@ export class AddSynagoguePage {
   }
 
   isFormValid() {
-    const mapObject = { latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress } as MapObject
+    const mapObject = { latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress } as MapObject;
     let isMapObjectValid = StaticValidators.IsLocationValid(mapObject, true);
     return isMapObjectValid && this.form.valid;
   }

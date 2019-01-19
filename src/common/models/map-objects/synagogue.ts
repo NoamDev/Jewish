@@ -1,15 +1,13 @@
 import {Event} from "../event/event";
 import {PrayerNosach} from "../common/enums/prayer-nosach";
-import {ServerModel} from "../common/server-model";
-import {generateObjectId} from "../common/utils";
-import {isArray, merge, pick} from "lodash-es";
+import {isArray} from "lodash-es";
 import {MapObjectTypes} from "../common/enums/map-object-types";
 import {CreateSynagogueOptions, SynagogueOptions} from "../common/enums/synagogue-option";
-import LatLngLiteral = google.maps.LatLngLiteral;
 import {PrayerEvent} from "../event/prayer-event";
 import {EventBasedMapObject} from "./map-objects";
 import {EventTypes} from "../common/enums/event-types";
 import {LessonEvent} from "../event/lesson-event";
+import LatLngLiteral = google.maps.LatLngLiteral;
 
 export class Synagogue extends EventBasedMapObject {
   _id: string;

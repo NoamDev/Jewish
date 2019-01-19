@@ -1,14 +1,14 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { GoogleMapProvider } from "../../providers/google-map/google-map-provider";
-import { GoogleMap } from "../../providers/google-map/google-map";
-import { ReplaySubject } from "rxjs/ReplaySubject";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import MapOptions = google.maps.MapOptions;
-import { MapObject } from "../../common/models/map-objects/map-objects";
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, Output} from '@angular/core';
+import {GoogleMapProvider} from "../../providers/google-map/google-map-provider";
+import {GoogleMap} from "../../providers/google-map/google-map";
+import {ReplaySubject} from "rxjs/ReplaySubject";
+import {OpenNativeSettings} from "@ionic-native/open-native-settings";
+import {MapObject} from "../../common/models/map-objects/map-objects";
 
-import { LocationAccuracy } from '@ionic-native/location-accuracy';
-import { LanguageServiceProvider } from '../../providers/language-service/language-service';
-import { Platform } from 'ionic-angular';
+import {LocationAccuracy} from '@ionic-native/location-accuracy';
+import {LanguageServiceProvider} from '../../providers/language-service/language-service';
+import {Platform} from 'ionic-angular';
+import MapOptions = google.maps.MapOptions;
 
 
 @Component({

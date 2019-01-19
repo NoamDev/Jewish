@@ -1,7 +1,7 @@
 import {ServerModel} from "../common/server-model";
-import {assign, isEqual, merge} from "lodash-es";
-import moment = require("moment");
+import {isEqual} from "lodash-es";
 import {EventTypes} from "../common/enums/event-types";
+import moment = require("moment");
 
 export abstract class Event extends ServerModel{
   type: EventTypes;

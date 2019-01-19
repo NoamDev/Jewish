@@ -1,16 +1,16 @@
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { ComponentsModule } from "../../components/components.module";
-import { DirectivesModule } from "../../directives/directives.module";
+import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {ComponentsModule} from "../../components/components.module";
+import {DirectivesModule} from "../../directives/directives.module";
 
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient } from "@angular/common/http";
-import { HomePage } from './home';
-import { GoogleMapProvider } from "../../providers/google-map/google-map-provider";
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClient} from "@angular/common/http";
+import {HomePage} from './home';
+import {GoogleMapProvider} from "../../providers/google-map/google-map-provider";
 
-import { initializeGoogleMaps, initializeUserGeoposition } from "../../app/app-initializers";
+import {initializeUserGeoposition} from "../../app/app-initializers";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');

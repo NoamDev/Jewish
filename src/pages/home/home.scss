@@ -7,17 +7,7 @@ page-home {
     }
   }
 
-  .search-bar {
-    background-color: #f9f9f9;
-    width: 90%;
-    border-radius: 5px;
-    margin: 10px auto;
-
-    ion-icon[name=search] {
-      color: map_get($colors, dark);
-    }
-    .item-inner {
-      border-bottom: none !important;
-    }
+  .searchbar-input {
+    direction: inherit;
   }
 }

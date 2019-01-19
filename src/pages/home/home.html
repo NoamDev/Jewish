@@ -1,32 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <ion-buttons left>
-      <button ion-button icon-only color="dark" (click)="goToUserSettings()">
-        <ion-icon name="options"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title text-center>
-      Jewish
-    </ion-title>
-    <ion-buttons right>
-      <button ion-button icon-only color="dark" (click)="goToAddSynagoguePage()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-  <ion-item class="search-bar" dir="rtl" *ngIf="lngService.currentLng == 'he'">
-    <ion-input placeholder="{{ 'search_map' | translate }}..." dir="rtl" (ionFocus)="goToSearchPage()"></ion-input>
-    <ion-label item-start margin-left>
-      <ion-icon name="search"></ion-icon>
-    </ion-label>
-  </ion-item>
+    <button ion-button menuToggle start>
+      <ion-icon name="menu"></ion-icon>
+    </button>
 
-  <ion-item class="search-bar" *ngIf="lngService.currentLng != 'he'">
-    <ion-input placeholder="{{ 'search_map' | translate }}..." (ionFocus)="goToSearchPage()"></ion-input>
-    <ion-label item-start margin-left>
-      <ion-icon name="search"></ion-icon>
-    </ion-label>
-  </ion-item>
+    <ion-title>Jewish</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-searchbar [placeholder]="'search_map' | translate" (click)="goToSearchPage()"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content no-scroll>

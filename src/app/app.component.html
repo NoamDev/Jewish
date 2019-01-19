@@ -1,2 +1,19 @@
-<!--<fk-application-menu [applicationContentNav]="applicationContent"></fk-application-menu>-->
+<ion-menu [content]="applicationContent">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{ 'menu' | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item menuClose (click)="goToAddSynagoguePage()">
+        {{ 'add_synaogue' | translate }}
+      </button>
+      <button ion-item menuClose (click)="goToUserSettings()">
+        {{'settings' | translate}}
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
 <ion-nav #applicationContent [root]="rootPage"></ion-nav>

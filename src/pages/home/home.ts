@@ -1,13 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {SearchEventPage} from "../search-event/search-event";
-import {AddSynagoguePage} from "../add-synagogue/add-synagogue";
 import {NoScrollDirective} from "../../directives/no-scroll/no-scroll";
 import {EventBasedMapObjectProvider} from "../../providers/server-providers/event-based-map-object.provider";
 import {EventBasedMapObject} from "../../common/models/map-objects/map-objects";
 import {Subject} from "rxjs/Subject";
 import {SearchResultsViewComponent} from "../../components/search-results-view/search-results-view";
-import {UserSettingsPage} from "../user-settings/user-settings";
 import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
 import {fromPromise} from "rxjs/observable/fromPromise";
 import "rxjs/add/operator/zip";
@@ -70,14 +68,5 @@ export class HomePage {
 
   goToSearchPage() {
     this.navCtrl.push(SearchEventPage)
-  }
-
-  goToAddSynagoguePage() {
-    this.navCtrl.push(AddSynagoguePage)
-  }
-
-  goToUserSettings() {
-    // this.navCtrl.pop();
-    this.navCtrl.push(UserSettingsPage);
   }
 }

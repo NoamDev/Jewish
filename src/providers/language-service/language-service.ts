@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
+import {Platform} from "ionic-angular";
+import {DocumentDirection} from "ionic-angular/platform/platform";
 
 /*
   Generated class for the LanguageServiceProvider provider.
@@ -15,7 +16,10 @@ export class LanguageServiceProvider {
   public currentLng: any;
   public direction: any;
 
-  constructor(public translate: TranslateService) {
+  constructor(
+    public translate: TranslateService,
+    private platform: Platform
+  ) {
 
   }
 
@@ -25,11 +29,11 @@ export class LanguageServiceProvider {
       this.translate.use('en');
 
       localStorage.setItem('currentLng', 'en');
-      localStorage.setItem('direction', 'unset');
+      localStorage.setItem('direction', 'ltr');
       localStorage.setItem('set_lng', 'en');
       localStorage.setItem('set_location', 'GB');
       this.currentLng = 'en';
-      this.direction = 'unset';
+      this.direction = 'ltr';
     } else {
       this.translate.use(localStorage.getItem("set_lng"));
       this.currentLng = localStorage.getItem("set_lng");
@@ -40,6 +44,8 @@ export class LanguageServiceProvider {
         localStorage.setItem('direction', 'ltr');
       }
     }
+
+    this.platform.setDir(localStorage.getItem('direction') as DocumentDirection, true);
   }
 
   switchLanguage(lng) {

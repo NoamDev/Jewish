@@ -1,21 +1,8 @@
 <ion-header no-border>
-  <!-- <ion-navbar color="white">
-    <ion-title text-center>{{'settings'|translate}}</ion-title>
-  </ion-navbar> -->
-  <ion-row class="header-row">
-    <ion-col col-2>
-      <ion-row class="full-height">
-        <ion-icon name="md-arrow-back" (click)="back()"></ion-icon>
-      </ion-row>
-    </ion-col>
-    <ion-col col-8>
-      <ion-row class="full-height">
-        <span>{{'settings'|translate}}</span>
-      </ion-row>
-    </ion-col>
-  </ion-row>
+  <ion-navbar color="white">
+    <ion-title text-center>{{ 'settings' | translate }}</ion-title>
+  </ion-navbar>
 </ion-header>
-
 
 <ion-content padding [dir]="lngService.direction">
   <div id="settings">

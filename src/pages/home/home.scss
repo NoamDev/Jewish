@@ -6,8 +6,12 @@ page-home {
       background-color: map_get($colors, white);
     }
   }
+}
 
-  .searchbar-input {
-    direction: inherit;
-  }
+[dir="ltr"] page-home ion-header .toolbar-title-md {
+  padding-left: 0 !important;
+}
+
+[dir="rtl"] page-home ion-header .toolbar-title-md {
+  padding-right: 0 !important;
 }

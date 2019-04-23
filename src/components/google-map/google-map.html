@@ -1,26 +1,23 @@
-<div id="map-loading" *ngIf="!map">
-  <div id="loading-text" *ngIf="!hasError">טוען מפה...</div>
+<div id="map-loading" [ngClass]="{'en-style':lngService.currentLng != 'he', 'ar-style':lngService.currentLng == 'he'}" *ngIf="!map">
+  <div id="loading-text" *ngIf="!hasError">{{ 'loading_map' | translate }}...</div>
   <div id="error" *ngIf="hasError">
-    <div id="help">לא ניתן למצוא את מיקומך</div>
-    <div id="description">בדוק שאכן שירותי המיקום מופעלים.<br> בנוסף וודא שישנה הרשאת גישה למיקום המכשיר עבור אפליקציה זו</div>
-    <button ion-button (click)="tryGetCurrentLocationAgain()">נסה שוב</button>
-    <button ion-button (click)="goToLocationSettings()">הגדרות שירותי מיקום</button>
+    <div id="help">{{ 'unable_find_location' | translate }}</div>
+    <div id="description">{{ 'check_service_enabled' | translate }}.
+      <br> {{ 'make_sure' | translate }}</div>
+    <button ion-button (click)="tryGetCurrentLocationAgain()">{{ 'try_again' | translate }}</button>
+    <button ion-button (click)="goToLocationSettings()">{{ 'fence_location_service' | translate }}</button>
     <div id="manual-locate">
-      <div margin-top>או לחלופין מקם ידנית</div>
+      <div margin-top>{{ 'or_place_manually' | translate }}</div>
       <ion-item>
-        <ion-input #placeAutoCompleteInput fkPlaceAutoComplete (placeSelected)="onPlaceSelected($event)"
-                   placeholder="הזן כתובת..."
-                   clearInput
-                   dir="rtl"
-                   [inputElement]="placeAutoCompleteInput._native?.nativeElement"></ion-input>
+        <ion-input #placeAutoCompleteInput fkPlaceAutoComplete (placeSelected)="onPlaceSelected($event)" placeholder="{{ 'enter_address' | translate }}..."
+          clearInput [dir]="lngService.direction" [inputElement]="placeAutoCompleteInput._native?.nativeElement"></ion-input>
       </ion-item>
-      <button ion-button color="secondary" (click)="mapWithManualLocation()" margin-top
-              [disabled]="!manualCenter.isFullyValid()">מקם ידנית</button>
+      <button ion-button color="secondary" (click)="mapWithManualLocation()" margin-top [disabled]="!manualCenter.isFullyValid()">{{
+        'place_manually' | translate }}</button>
     </div>
 
   </div>
 </div>
 <div [attr.id]="canvasElementId" style="width: 100%;height: 100%;"></div>
-<fk-locate-button class="fab-size"
-                  [map]="map" *ngIf="map">
+<fk-locate-button class="fab-size" [map]="map" *ngIf="map">
 </fk-locate-button>

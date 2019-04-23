@@ -1,51 +1,45 @@
 <ion-header no-border>
   <ion-navbar color="white">
-    <ion-title text-center>הוסף בית כנסת</ion-title>
+    <ion-title text-center>{{ 'add_synaogue' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="form-background-color" dir="rtl">
+<ion-content class="form-background-color" [dir]="lngService.direction">
   <form #form="ngForm">
-    <ion-item>
-      <ion-input name="name" [(ngModel)]="synagogue.name" required
-                 placeholder="שם הבית כנסת" clearInput dir="rtl"></ion-input>
-    </ion-item>
+    <select-search (onSynagoguePicked)="onSynagoguePicked($event)"></select-search>
 
     <ion-item>
-      <ion-input #placeAutoCompleteInput fkPlaceAutoComplete
-                 name="location"
-                 (placeSelected)="onMapObjectChanged($event)"
-                 [inputElement]="placeAutoCompleteInput._native?.nativeElement"
-                 clearInput placeholder="בחר כתובת" dir="rtl"></ion-input>
+      <ion-input #placeAutoCompleteInput fkPlaceAutoComplete name="location"
+        (placeSelected)="onMapObjectChanged($event)" [inputElement]="placeAutoCompleteInput._native?.nativeElement"
+        clearInput placeholder="{{'select_an_address'|translate}}" [(ngModel)]="synagogue.userFriendlyAddress"
+        [dir]="lngService.direction"></ion-input>
       <ion-label>
         <ion-icon name="md-map" class="input-icon"></ion-icon>
       </ion-label>
-      <a item-end margin-left fkLocationPickerModal
-         (locationSelected)="onModalClosed($event)">מפה</a>
+      <a item-end margin-left fkLocationPickerModal (locationSelected)="onModalClosed($event)">{{'map'|translate}}</a>
     </ion-item>
 
-    <fk-prayer-version-options label="נוסח עיקרי " name="primaryNosach" required
-                               [(ngModel)]="synagogue.primaryPrayerNosach">
+    <fk-prayer-version-options label="{{'nosahc'|translate}} " name="primaryNosach" required
+      [(ngModel)]="synagogue.primaryPrayerNosach">
     </fk-prayer-version-options>
 
     <ion-card>
-      <ion-card-header class="form-section-title">אפשרויות מקום</ion-card-header>
+      <ion-card-header class="form-section-title">{{'place_options'|translate}}</ion-card-header>
       <ion-card-content>
         <fk-synagogue-options [(ngModel)]="synagogue.synagogueOptions" name="options"></fk-synagogue-options>
       </ion-card-content>
     </ion-card>
 
     <ion-card>
-      <ion-card-header class="form-section-title">דרכי התקשרות</ion-card-header>
+      <ion-card-header class="form-section-title">{{'contact_information'|translate}}</ion-card-header>
       <ion-card-content>
 
         <ion-item class="phone-item" dir="ltr">
-          <ion-input type="tel" [(ngModel)]="phoneNumber" name="phone"
-                     [pattern]="phonePattern"
-                     placeholder="הכנס כאן את מספר הפלאפון" text-left></ion-input>
+          <ion-input type="tel" [(ngModel)]="phoneNumber" name="phone" [pattern]="phonePattern"
+            placeholder="{{'enter_phone'|translate}}" text-left></ion-input>
 
           <button [disabled]="!(form?.controls?.phone?.valid) || phoneNumber == '' || !phoneNumber"
-                  class="mini-phone-plus-button" item-right (click)="addPhoneNumber()">
+            class="mini-phone-plus-button" item-right (click)="addPhoneNumber()">
             <ion-icon name="call" class="mini-phone-plus-icon">
               <ion-icon name="add"></ion-icon>
             </ion-icon>
@@ -63,28 +57,28 @@
           </button>
         </ion-row>
         <ion-row *ngIf="synagogue.phone.length==0">
-          <div style="width:100%; text-align:center">לא הוספו מספרי טלפון</div>
+          <div style="width:100%; text-align:center">{{'no_phone_n_added'|translate}}</div>
         </ion-row>
 
       </ion-card-content>
     </ion-card>
 
-    <ion-grid class="event-times-container">
+    <ion-grid class="event-times-container" [dir]="lngService.direction">
       <ion-row align-items-center margin>
         <button ion-fab color="orange" margin-left (click)="openAddTimesModal()">
           <ion-icon name="md-time"></ion-icon>
         </button>
-        <div class="bold">+ הוספת זמנים</div>
+        <div class="bold">+ {{'add_times'|translate}}</div>
       </ion-row>
       <ion-grid>
         <ion-row *ngFor="let eventType of getEventTypes()" class="event-type-collapse-container">
           <div (click)="toggleCollapse(eventType)">
-            <ion-row class="event-type-collapse">{{eventType}}</ion-row>
+            <ion-row class="event-type-collapse">{{eventType|translate}}</ion-row>
             <ion-row class="event-type-collapse">
               <ion-icon name="arrow-dropdown"></ion-icon>
             </ion-row>
           </div>
-          <ng-container *ngIf="eventsToShow == eventType" >
+          <ng-container *ngIf="eventsToShow == eventType">
             <ion-row *ngFor="let event of eventsDictionary[eventsToShow]">
               <ion-card>
                 <ion-card-content>
@@ -93,7 +87,7 @@
                       <span>{{event.getEventName()}}</span>
                     </ion-col>
                     <ion-col>
-                      <span>בימים </span>
+                      <span>{{'in_the_days'|translate}} </span>
                       <span>{{event.formatDaysArray()}}</span>
                     </ion-col>
                     <ion-col dir="ltr">
@@ -107,30 +101,31 @@
               </ion-card>
             </ion-row>
           </ng-container>
-          <div *ngIf="eventsToShow == eventType && eventsDictionary[eventsToShow].length == 0">אין {{eventType}} להצגה</div>
+          <div *ngIf="eventsToShow == eventType && eventsDictionary[eventsToShow].length == 0">{{'nothing'|translate}}
+            {{eventType|translate}} {{'to_display'|translate}}</div>
         </ion-row>
       </ion-grid>
 
     </ion-grid>
 
     <!--<ion-row align-items-center margin>-->
-      <!--<button ion-fab color="strong-cyan" margin-left-->
-              <!--(click)="pickImage()">-->
-        <!--<ion-icon name="image"></ion-icon>-->
-      <!--</button>-->
-      <!--<div class="bold">+ הוספת תמונה של המקום</div>-->
+    <!--<button ion-fab color="strong-cyan" margin-left-->
+    <!--(click)="pickImage()">-->
+    <!--<ion-icon name="image"></ion-icon>-->
+    <!--</button>-->
+    <!--<div class="bold">+ הוספת תמונה של המקום</div>-->
     <!--</ion-row>-->
 
     <div>
-      <ion-textarea class="comments" [(ngModel)]="synagogue.comments" name="comments"
-                    margin placeholder="כתוב כאן הערות" rows="5"></ion-textarea>
+      <ion-textarea class="comments" [(ngModel)]="synagogue.comments" name="comments" margin
+        placeholder="{{'write_comment_here'|translate}}" rows="5"></ion-textarea>
     </div>
   </form>
 
   <!--<pre dir="ltr" text-left>{{synagogue | json}}</pre>-->
 </ion-content>
 <ion-footer padding [attr.disabled]="!isFormValid()" text-center>
-  <button class="transparent save-synagogue-button" (click)="submitNewSynagogue()" [disabled]="!isFormValid()">שמור פרטי
-    בית כנסת
+  <button class="transparent save-synagogue-button" (click)="submitNewSynagogue()"
+    [disabled]="!isFormValid()">{{'save_synagogue_details'|translate}}
   </button>
 </ion-footer>

@@ -1,15 +1,15 @@
 import {ServerModel} from "../common/server-model";
-import {assign, isEqual, merge} from "lodash-es";
-import moment = require("moment");
+import {isEqual} from "lodash-es";
 import {EventTypes} from "../common/enums/event-types";
+import moment = require("moment");
 
-export abstract class Event extends ServerModel{
+export abstract class Event extends ServerModel {
   type: EventTypes;
   startTime: Date;
   endTime: Date;
   repeatedDays: number[];
   verifiedRecentlyAt: Date;
-  dateMembers = ['startTime','endTime', 'verifiedRecentlyAt'];
+  dateMembers = ['startTime', 'endTime', 'verifiedRecentlyAt'];
 
   protected constructor() {
     super();
@@ -18,15 +18,15 @@ export abstract class Event extends ServerModel{
 
   abstract getEventName(): string;
 
-  fromServerModel(sm: any){
-    this.startTime = moment(sm.hour,"hh:mm").toDate();
-    this.endTime = sm.endTime && moment(sm.endTime,"hh:mm").toDate();
-    this.repeatedDays = sm.days;
+  fromServerModel(sm: any) {
+    this.startTime = moment(sm.hour || sm.startTime, "hh:mm").toDate();
+    this.endTime = sm.endTime && moment(sm.endTime, "hh:mm").toDate();
+    this.repeatedDays = sm.days || sm.repetedDays || [];
     this.verifiedRecentlyAt = moment(sm.last_verified_at, "dd/mm/yyyy").toDate();
     return this;
   }
 
-  toServerModel(): any{
+  toServerModel(): any {
     return {
       days: this.repeatedDays,
       verifiedRecentlyAt: moment(this.verifiedRecentlyAt).format(""),
@@ -42,20 +42,20 @@ export abstract class Event extends ServerModel{
       isEqual(this.repeatedDays, other.repeatedDays);
   }
 
-  public formatTimeRange(format="hh:mm"){
+  public formatTimeRange(format = "hh:mm") {
     let formatted = '';
     if (this.isValidDate(this.startTime))
       formatted = moment(this.startTime).format(format);
     if (this.isValidDate(this.endTime))
-      formatted += ` - ${moment(this.endTime).format(format)}`;
+      formatted += ` - ${ moment(this.endTime).format(format) }`;
     return formatted != '' ? formatted : 'לא ידוע';
   }
 
-  public isTimeRangeValid(){
+  public isTimeRangeValid() {
     return this.isValidDate(this.startTime)
   }
 
-  public formatDaysArray(){
+  public formatDaysArray() {
     if (this.repeatedDays.length == 1)
       return this.formatDaysToHebrewAbbr();
     let arr = this.repeatedDays.slice().sort();
@@ -66,21 +66,21 @@ export abstract class Event extends ServerModel{
       return isLessThanNext;
     })) {
       let hebAbbr = this.formatDaysToHebrewAbbr(arr);
-      return `${hebAbbr[0]} - ${hebAbbr[arr.length-1]}`;
+      return `${ hebAbbr[0] } - ${ hebAbbr[arr.length - 1] }`;
     }
     else {
       return this.formatDaysToHebrewAbbr(arr).join(', ');
     }
   }
 
-  public formatDaysToHebrewAbbr(arr?: number[]){
-    const days = ['א','ב','ג','ד','ה','ו','ש']
+  public formatDaysToHebrewAbbr(arr?: number[]) {
+    const days = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש']
     return (arr || this.repeatedDays).map(d => {
-      return days[d-1];
+      return days[d - 1];
     })
   }
 
-  private isValidDate(d){
+  private isValidDate(d) {
     return d instanceof Date && !isNaN(d as any);
   }
 }

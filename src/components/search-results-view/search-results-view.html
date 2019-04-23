@@ -1,20 +1,16 @@
 <ion-header no-border>
-  <ion-navbar *ngIf="canGoBack">
-    <ion-navbar color="white">
-      <ion-title text-center>תוצאות חיפוש</ion-title>
-    </ion-navbar>
-  </ion-navbar>
   <ion-toolbar>
-    <ion-segment mode="md" [(ngModel)]="activeSegment">
+    <ion-segment [(ngModel)]="activeSegment">
       <ion-segment-button value="map">
-        מפת בתי כנסת
+        {{ 'map_of_synagogues' | translate }}
       </ion-segment-button>
       <ion-segment-button value="list">
-        תצוגת רשימה
+        {{ 'list_view' | translate }}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
+
 <ion-content no-scroll>
   <fk-google-map #googleMap [mapOptions]="mapOptions" [hidden]="activeSegment!=='map'"></fk-google-map>
   <fk-map-objects-list [mapObjects]="results" [hidden]="activeSegment!=='list'"></fk-map-objects-list>

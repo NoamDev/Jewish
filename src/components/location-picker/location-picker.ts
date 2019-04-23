@@ -1,19 +1,20 @@
-import {AfterViewInit, Component, OnDestroy, ViewChild, ViewChildren} from '@angular/core';
-import {TextInput, ViewController} from "ionic-angular";
-import {GoogleMapProvider} from "../../providers/google-map/google-map-provider";
-import {GoogleMapComponent} from "../google-map/google-map";
+import { AfterViewInit, Component, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
+import { TextInput, ViewController } from "ionic-angular";
+import { GoogleMapProvider } from "../../providers/google-map/google-map-provider";
+import { GoogleMapComponent } from "../google-map/google-map";
 import Map = google.maps.Map;
 import Marker = google.maps.Marker;
-import {MapObject} from "../../common/models/map-objects/map-objects";
+import { MapObject } from "../../common/models/map-objects/map-objects";
 import LatLngLiteral = google.maps.LatLngLiteral;
-import {StaticValidators} from "../../validators/static-validators";
-import {PlaceAutoComplete} from "../../directives/place-autocomplete/place-autocomplete";
+import { StaticValidators } from "../../validators/static-validators";
+import { PlaceAutoComplete } from "../../directives/place-autocomplete/place-autocomplete";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({
   selector: 'fk-location-picker',
   templateUrl: 'location-picker.html',
 })
-export class LocationPickerComponent implements OnDestroy, AfterViewInit{
+export class LocationPickerComponent implements OnDestroy, AfterViewInit {
   @ViewChild('mapComponent') mapComponent: GoogleMapComponent;
   @ViewChild('PlaceAutoCompleteInput') placeAutoCompleteInput: TextInput;
   @ViewChild(PlaceAutoComplete) placeAutoComplete: PlaceAutoComplete;
@@ -22,18 +23,25 @@ export class LocationPickerComponent implements OnDestroy, AfterViewInit{
   mapObject: MapObject;
 
   constructor(private viewCtrl: ViewController,
-              private mapProvider: GoogleMapProvider) {
+    private mapProvider: GoogleMapProvider,
+    public lngService: LanguageServiceProvider,
+  ) {
     console.log('Hello LocationPickerComponent Component');
     this.mapObject = new MapObject();
+    
+    this.lngService.setLanguage();
+
+    this.lngService.currentLng = localStorage.getItem('currentLng');
+    this.lngService.direction = localStorage.getItem('direction');
   }
 
   ngAfterViewInit() {
     this.mapComponent.onMapCreated.subscribe(args => {
       this.initOnLocationPressed(this.mapComponent.map.map);
-    }, err => { console.error('Could not load Location-Picker because it could not create a Map')});
+    }, err => { console.error('Could not load Location-Picker because it could not create a Map') });
   }
 
-  onAutoCompleteSelect(mapObject: MapObject){
+  onAutoCompleteSelect(mapObject: MapObject) {
     if (mapObject) {
       this.changeMarkerPosition(mapObject.latLng);
       this.mapObject = mapObject;
@@ -67,11 +75,11 @@ export class LocationPickerComponent implements OnDestroy, AfterViewInit{
     });
   }
 
-  private changeMarkerPosition(newPosition: LatLngLiteral){
+  private changeMarkerPosition(newPosition: LatLngLiteral) {
     if (this.marker)
       this.marker.setPosition(newPosition);
     else
-      this.marker = this.mapComponent.map.createMarkerAt({position: newPosition});
+      this.marker = this.mapComponent.map.createMarkerAt({ position: newPosition });
   }
 
   private disappearAutoCompleteList() {
@@ -79,7 +87,7 @@ export class LocationPickerComponent implements OnDestroy, AfterViewInit{
       .forEach(el => (el as HTMLElement).style.display = "none");
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     Object.keys(this).forEach(k => delete this[k]);
   }
 }

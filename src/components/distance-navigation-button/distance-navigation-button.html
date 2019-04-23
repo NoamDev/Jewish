@@ -1,5 +1,5 @@
 <span dir="ltr" (click)="launchNavigation()">
-  <span *ngIf="!relativeDistance" dir="rtl">מחשב מרחק...</span>
+  <span *ngIf="!relativeDistance" dir="rtl">{{'computer_distance'|translate}}...</span>
   <span *ngIf="relativeDistance">{{ relativeDistance | distancePipe}}</span>
   <ion-icon name="md-locate"></ion-icon>
 </span>

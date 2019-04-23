@@ -1,0 +1,9 @@
+<ion-searchbar [(ngModel)]="synagogueName" showCancelButton (ionInput)="onInputChanged($event)"
+    placeholder="שם בית הכנסת" type="text">
+</ion-searchbar>
+
+<ion-list>
+    <ion-item *ngFor="let synagogue of SearchedSynagogues" (click)="onClick(synagogue)">{{synagogue.name + '   ' }}<span
+            style="color:gray">{{synagogue.userFriendlyAddress}}</span>
+    </ion-item>
+</ion-list>

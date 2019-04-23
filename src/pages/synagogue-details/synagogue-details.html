@@ -2,61 +2,78 @@
   <ion-navbar></ion-navbar>
   <img src="https://picsum.photos/500/500">
   <div class="last-updated-at">
-    <span>עודכן לאחרונה ב:</span>
+    <span>{{'last_updated'|translate}}</span>
     <span>{{synagogue.getLastVerified()}}</span>
   </div>
   <div class="relative-distance">
-    <distance-navigation-button [relativeDistance]="relativeDistance" [destination]="synagogue.userFriendlyAddress"></distance-navigation-button>
+    <distance-navigation-button [relativeDistance]="relativeDistance" [destination]="synagogue.userFriendlyAddress">
+    </distance-navigation-button>
   </div>
 </ion-header>
 
-<ion-content padding *ngIf="synagogue" dir="rtl">
+<ion-content padding *ngIf="synagogue" [dir]="lngService.direction">
   <h1>{{synagogue.name}}</h1>
   <ion-row justify-content-between>
     <div class="userFriendlyAddress">{{synagogue.userFriendlyAddress}}</div>
     <div text-center>
-      זמני תפילה קרובה:
+      {{'close_prayer_times'|translate}}
       <br>
       <div *ngIf="prayers.length  > 0;else noSoonestPrayer">
         {{soonestPrayer?.prayerType}}
         {{soonestPrayer?.formatTimeRange()}}
       </div>
-      <ng-template #noSoonestPrayer>לא ידוע</ng-template>
+      <ng-template #noSoonestPrayer>{{'unknown'|translate}}</ng-template>
     </div>
   </ion-row>
   <div margin-top margin-bottom *ngIf="synagogue.comments">
-    <b>הערות: </b> <span class="comments">{{synagogue.comments}}</span>
+    <b>{{'remarks'|translate}}: </b> <span class="comments">{{synagogue.comments}}</span>
   </div>
   <hr>
   <ion-grid>
-    <ion-row><h4>מספר טלפון</h4></ion-row>
     <ion-row>
-      <ion-col col-2 ion-row align-items-center><ion-icon name="call"></ion-icon></ion-col>
-      <ion-col col-7 ion-row align-items-center><div class="phone-number-to-call">{{getPhoneNumber()}}</div></ion-col>
+      <h4>{{'phone_number'|translate}}</h4>
+    </ion-row>
+    <ion-row>
+      <ion-col col-2 ion-row align-items-center>
+        <ion-icon name="call"></ion-icon>
+      </ion-col>
+      <ion-col col-7 ion-row align-items-center>
+        <div class="phone-number-to-call">{{getPhoneNumber()}}</div>
+      </ion-col>
       <!--<ion-col col-3 ion-row align-items-center end>-->
-        <!--<button class="call-now-button" (click)="goToDial()" [disabled]="!isCallSupported || synagogue.phone[0] == null">התקשר עכשיו</button>-->
+      <!--<button class="call-now-button" (click)="goToDial()" [disabled]="!isCallSupported || synagogue.phone[0] == null">התקשר עכשיו</button>-->
       <!--</ion-col>-->
     </ion-row>
   </ion-grid>
   <hr>
   <ion-grid>
-    <ion-row><h4>זמני תפילה</h4></ion-row>
-    <ion-row *ngIf="prayers.length == 0">לא הוזנו תפילות. באפשרותך להוסיף זמני תפילות</ion-row>
+    <ion-row>
+      <h4>{{'prayer_times'|translate}}</h4>
+    </ion-row>
+    <ion-row *ngIf="prayers.length == 0">{{'add_tfilos'|translate}}</ion-row>
     <ion-row *ngFor="let prayer of prayers">
       <ion-col col-2>{{prayer.prayerType}}:</ion-col>
       <ion-col col-5 text-center>{{prayer.formatDaysArray()}}</ion-col>
-      <ion-col col-5 text-left dir="ltr"><div class="event-time-range">{{prayer.formatTimeRange()}}</div></ion-col>
+      <ion-col col-5 text-left dir="ltr">
+        <div class="event-time-range">{{prayer.formatTimeRange()}}</div>
+      </ion-col>
     </ion-row>
   </ion-grid>
   <ion-grid *ngIf="lessons.length > 0">
-    <ion-row><h4>שיעורי תורה</h4></ion-row>
+    <ion-row>
+      <h4>{{'tora_lessons'|translate}}</h4>
+    </ion-row>
     <ion-row *ngFor="let lesson of lessons">
       <ion-col col-2>{{lesson.getEventName()}}:</ion-col>
       <ion-col col-5 text-center>{{lesson.formatDaysArray()}}</ion-col>
-      <ion-col col-5 text-left dir="ltr"><div class="event-time-range">{{lesson.formatTimeRange()}}</div></ion-col>
+      <ion-col col-5 text-left dir="ltr">
+        <div class="event-time-range">{{lesson.formatTimeRange()}}</div>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
 <ion-fab bottom margin-left>
-  <button ion-fab color="primary" (click)="goToEditPage()"><ion-icon name="create"></ion-icon></button>
+  <button ion-fab color="primary" (click)="goToEditPage()">
+    <ion-icon name="create"></ion-icon>
+  </button>
 </ion-fab>

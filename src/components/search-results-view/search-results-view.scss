@@ -12,18 +12,4 @@ fk-search-results-view {
     padding-left: 0 !important;
     background-color: map_get($colors, white) !important;
   }
-  .segment-button{
-    max-width: 100% !important;
-    border-bottom-color: transparent !important;
-    padding-right: 0 !important;
-    padding-left: 0 !important;
-    height: 100% !important;
-    line-height: 5rem !important;
-    color: map_get($colors, dark) !important;
-    font-weight: bold !important;
-    background-color: map_get($colors, white) !important;
-  }
-  .segment-activated{
-    border-bottom-color: map_get($colors, dark) !important;
-  }
 }

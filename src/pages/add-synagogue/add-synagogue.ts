@@ -9,6 +9,7 @@ import {EventTypes} from "../../common/models/common/enums/event-types";
 import {StaticValidators} from "../../validators/static-validators";
 import {MapObject} from "../../common/models/map-objects/map-objects";
 import {PlaceAutoComplete} from "../../directives/place-autocomplete/place-autocomplete";
+import {LanguageServiceProvider} from '../../providers/language-service/language-service';
 
 @IonicPage()
 @Component({
@@ -25,30 +26,41 @@ export class AddSynagoguePage {
   synagogue: Synagogue;
   eventsToShow: string;
   phonePattern = /^\d{2,3}-?\d{7}$/;
-  eventsDictionary: {[type: string]: Event[]};
+  eventsDictionary: { [type: string]: Event[] };
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private toastCtrl: ToastController,
-              private changeDetector: ChangeDetectorRef,
-              private mapObjectProvider: EventBasedMapObjectProvider,
-              private modalCtrl: ModalController) {
+    public navParams: NavParams,
+    private toastCtrl: ToastController,
+    private changeDetector: ChangeDetectorRef,
+    private mapObjectProvider: EventBasedMapObjectProvider,
+    private modalCtrl: ModalController,
+    public lngService: LanguageServiceProvider,
+  ) {
+
+    this.lngService.setLanguage();
+
+    this.lngService.currentLng = localStorage.getItem('currentLng');
+    this.lngService.direction = localStorage.getItem('direction');
+
+    console.log(this.lngService);
+
     this.synagogue = this.navParams.get('synagogue') as Synagogue || new Synagogue();
+    console.log(this.synagogue);
     this.createEventsDictionary();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddSynagoguePage');
-    this.placeAutoComplete.mapObject = new Synagogue({latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress});
+    this.placeAutoComplete.mapObject = new Synagogue({ latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress });
   }
 
-  async submitNewSynagogue(){
-    try{
-      const res  = await this.mapObjectProvider.create(this.synagogue).toPromise();
-      this.toastCtrl.create({message: 'בית הכנסת נוסף בהצלחה'});
+  async submitNewSynagogue() {
+    try {
+      await this.mapObjectProvider.create(this.synagogue).toPromise();
+      this.toastCtrl.create({ message: 'בית הכנסת נוסף בהצלחה' });
     }
     catch (e) {
-      this.toastCtrl.create({message: 'אירעה שגיאה.. בית הכנסת לא נוצר', duration: 3000}).present();
+      this.toastCtrl.create({ message: e.error, duration: 3000 }).present();
     }
   }
 
@@ -56,8 +68,19 @@ export class AddSynagoguePage {
 
   }
 
+  onSynagoguePicked(syn: Synagogue) {
+    this.synagogue._id = syn._id;
+    this.synagogue.name = syn.name;
+    this.synagogue.phone = syn.phone;
+    this.synagogue.primaryPrayerNosach = syn.primaryPrayerNosach;
+    this.synagogue.synagogueOptions = syn.synagogueOptions;
+    this.synagogue.userFriendlyAddress = syn.userFriendlyAddress;
+    this.synagogue.comments = syn.comments;
+    this.synagogue.events = syn.events;
+  }
+
   openAddTimesModal() {
-    const modal = this.modalCtrl.create(AddEventModalComponent,null, {
+    const modal = this.modalCtrl.create(AddEventModalComponent, null, {
       enableBackdropDismiss: true,
       showBackdrop: true,
     });
@@ -70,7 +93,7 @@ export class AddSynagoguePage {
     modal.present();
   }
 
-  addPhoneNumber(){
+  addPhoneNumber() {
     if (this.synagogue.phone.findIndex(p => p == this.phoneNumber) == -1)
       this.synagogue.phone.push(this.phoneNumber);
   }
@@ -86,18 +109,20 @@ export class AddSynagoguePage {
   }
 
   onMapObjectChanged(mapObject: MapObject) {
+    if (!mapObject)
+      return;
     this.synagogue.userFriendlyAddress = mapObject.userFriendlyAddress;
     this.synagogue.latLng = mapObject.latLng;
     this.changeDetector.detectChanges();
   }
 
-  isFormValid(){
-    const mapObject = {latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress} as MapObject
+  isFormValid() {
+    const mapObject = { latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress } as MapObject
     let isMapObjectValid = StaticValidators.IsLocationValid(mapObject, true);
     return isMapObjectValid && this.form.valid;
   }
 
-  formatTimeRange(event: Event){
+  formatTimeRange(event: Event) {
     return event.formatTimeRange();
   }
 
@@ -107,20 +132,21 @@ export class AddSynagoguePage {
     this.synagogue.events.splice(this.synagogue.events.findIndex(ev => ev == event), 1);
   }
 
-  createEventsDictionary(){
+  createEventsDictionary() {
     this.eventsDictionary = {};
     Object.keys(EventTypes).map(et => EventTypes[et])
       .forEach(et => this.eventsDictionary[et] = this.synagogue.events.filter(ev => {
         return ev.type == et;
       }));
+      console.log(this.eventsDictionary);
   }
 
-  getEventTypes(){
+  getEventTypes() {
     return Object.keys(this.eventsDictionary);
   }
 
-  toggleCollapse(eventsToShow){
-    if(this.eventsToShow && this.eventsToShow == eventsToShow)
+  toggleCollapse(eventsToShow) {
+    if (this.eventsToShow && this.eventsToShow == eventsToShow)
       this.eventsToShow = null;
     else
       this.eventsToShow = eventsToShow;

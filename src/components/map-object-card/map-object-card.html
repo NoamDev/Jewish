@@ -1,4 +1,4 @@
-<ion-card dir="rtl" (click)="goToPageDetails()">
+<ion-card [dir]="lngService.direction" (click)="goToPageDetails()">
   <div class="box-shadow">
     <img src="https://picsum.photos/400/120">
 
@@ -8,7 +8,7 @@
           <distance-navigation-button [relativeDistance]="relativeDistance" [destination]="mapObject.userFriendlyAddress"></distance-navigation-button>
         </div>
         <div class="last-updated-at">
-          עודכן לאחרונה
+          {{'last_update'|translate}}
           {{mapObject.getLastVerified()}}
         </div>
       </ion-row>

@@ -28,7 +28,4 @@ ionic cordova platform add android
 Usage
 ---
 
-1. `ionic serve`
-
-2. Open [http://localhost:3000/](http://localhost:3000/).
-
+Run `npm start`

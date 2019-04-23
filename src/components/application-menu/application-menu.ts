@@ -29,8 +29,6 @@ export class ApplicationMenuComponent {
 
   initPages(){
     this.pages = {};
-    // this.pages.AddSynagoguePage = {title: "הוספת בית כנסת", componentName: "AddSynagoguePage"};
-    // this.pages.SynagogueDetails = {title: "פרטי בית כנסת", componentName: "SynagogueDetailsPage"};
   }
 
   registerToNavEvents(){
@@ -40,6 +38,7 @@ export class ApplicationMenuComponent {
   }
 
   getPagesTitle() {
+    console.log(Object.keys(this.pages).map(compName => this.pages[compName]));
     return Object.keys(this.pages).map(compName => this.pages[compName]);
   }
 

@@ -9,8 +9,9 @@
     <select-search (onSynagoguePicked)="onSynagoguePicked($event)"></select-search>
 
     <ion-item>
-      <ion-input #placeAutoCompleteInput fkPlaceAutoComplete name="location" (placeSelected)="onMapObjectChanged($event)"
-        [inputElement]="placeAutoCompleteInput._native?.nativeElement" clearInput placeholder="{{'select_an_address'|translate}}"
+      <ion-input #placeAutoCompleteInput fkPlaceAutoComplete name="location"
+        (placeSelected)="onMapObjectChanged($event)" [inputElement]="placeAutoCompleteInput._native?.nativeElement"
+        clearInput placeholder="{{'select_an_address'|translate}}" [(ngModel)]="synagogue.userFriendlyAddress"
         [dir]="lngService.direction"></ion-input>
       <ion-label>
         <ion-icon name="md-map" class="input-icon"></ion-icon>
@@ -18,7 +19,8 @@
       <a item-end margin-left fkLocationPickerModal (locationSelected)="onModalClosed($event)">{{'map'|translate}}</a>
     </ion-item>
 
-    <fk-prayer-version-options label="{{'nosahc'|translate}} " name="primaryNosach" required [(ngModel)]="synagogue.primaryPrayerNosach">
+    <fk-prayer-version-options label="{{'nosahc'|translate}} " name="primaryNosach" required
+      [(ngModel)]="synagogue.primaryPrayerNosach">
     </fk-prayer-version-options>
 
     <ion-card>
@@ -33,11 +35,11 @@
       <ion-card-content>
 
         <ion-item class="phone-item" dir="ltr">
-          <ion-input type="tel" [(ngModel)]="phoneNumber" name="phone" [pattern]="phonePattern" placeholder="{{'enter_phone'|translate}}"
-            text-left></ion-input>
+          <ion-input type="tel" [(ngModel)]="phoneNumber" name="phone" [pattern]="phonePattern"
+            placeholder="{{'enter_phone'|translate}}" text-left></ion-input>
 
-          <button [disabled]="!(form?.controls?.phone?.valid) || phoneNumber == '' || !phoneNumber" class="mini-phone-plus-button"
-            item-right (click)="addPhoneNumber()">
+          <button [disabled]="!(form?.controls?.phone?.valid) || phoneNumber == '' || !phoneNumber"
+            class="mini-phone-plus-button" item-right (click)="addPhoneNumber()">
             <ion-icon name="call" class="mini-phone-plus-icon">
               <ion-icon name="add"></ion-icon>
             </ion-icon>
@@ -115,14 +117,15 @@
     <!--</ion-row>-->
 
     <div>
-      <ion-textarea class="comments" [(ngModel)]="synagogue.comments" name="comments" margin placeholder="{{'write_comment_here'|translate}}"
-        rows="5"></ion-textarea>
+      <ion-textarea class="comments" [(ngModel)]="synagogue.comments" name="comments" margin
+        placeholder="{{'write_comment_here'|translate}}" rows="5"></ion-textarea>
     </div>
   </form>
 
   <!--<pre dir="ltr" text-left>{{synagogue | json}}</pre>-->
 </ion-content>
 <ion-footer padding [attr.disabled]="!isFormValid()" text-center>
-  <button class="transparent save-synagogue-button" (click)="submitNewSynagogue()" [disabled]="!isFormValid()">{{'save_synagogue_details'|translate}}
+  <button class="transparent save-synagogue-button" (click)="submitNewSynagogue()"
+    [disabled]="!isFormValid()">{{'save_synagogue_details'|translate}}
   </button>
 </ion-footer>

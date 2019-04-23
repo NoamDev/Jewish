@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({

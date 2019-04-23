@@ -1,15 +1,14 @@
-import {Component} from '@angular/core';
-import {Event} from "../../common/models/event/event";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {StaticValidators} from "../../validators/static-validators";
-import {ViewController} from "ionic-angular";
-import {PrayerEvent} from "../../common/models/event/prayer-event";
-import {EventTypes} from "../../common/models/common/enums/event-types";
-import {PrintFormValidationErrors} from "../../common/models/common/utils";
-import {LessonEvent} from "../../common/models/event/lesson-event";
-import {PrayerType} from "../../common/models/common/enums/prayer-type";
-import {LanguageServiceProvider} from '../../providers/language-service/language-service';
-import moment = require("moment");
+import { Component } from '@angular/core';
+import { Event } from "../../common/models/event/event";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { StaticValidators } from "../../validators/static-validators";
+import { ViewController } from "ionic-angular";
+import { PrayerEvent } from "../../common/models/event/prayer-event";
+import { EventTypes } from "../../common/models/common/enums/event-types";
+import { PrintFormValidationErrors } from "../../common/models/common/utils";
+import { LessonEvent } from "../../common/models/event/lesson-event";
+import { PrayerType } from "../../common/models/common/enums/prayer-type";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({
   selector: 'fk-event-days-and-time-modal',
@@ -45,8 +44,6 @@ export class AddEventModalComponent {
   }
 
   onFormSubmitted() {
-    this.event.startTime = moment(this.event.startTime, "HH:mm").toDate();
-    this.event.endTime = this.event.endTime && moment(this.event.endTime, "HH:mm").toDate();
     this.viewCtrl.dismiss(this.event);
   }
 

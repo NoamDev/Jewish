@@ -6,21 +6,17 @@ import "rxjs/add/operator/map";
 import { EventBasedMapObject, MapObject } from "../../common/models/map-objects/map-objects";
 import { Observable } from "rxjs/Observable";
 import LatLngLiteral = google.maps.LatLngLiteral;
-import { FakeLatLngAround, FakeMapObject } from "../../common/data-faker/data-randomizer";
-import { of } from "rxjs/observable/of";
 import { SearchEvent } from "../../common/models/event/search-event";
 import { Config } from "@app/env";
 import { Synagogue } from "../../common/models/map-objects/synagogue";
 import { GoogleMapProvider } from "../google-map/google-map-provider";
-import { LocationTrackingProvider } from "../location-tracking/location-tracking";
 
 @Injectable()
 export class EventBasedMapObjectProvider extends AbstractServerProvider {
-  readonly baseUrl = `${Config.serverBaseUrl}/synagogue`;
+  readonly baseUrl = `${ Config.serverBaseUrl }/synagogue`;
 
   constructor(private http: HttpClient,
-    private googleMapProvider: GoogleMapProvider,
-    private locationProvider: LocationTrackingProvider) {
+    private googleMapProvider: GoogleMapProvider) {
     super();
     console.log("Hello EventBasedMapObjectProvider Provider");
   }
@@ -36,7 +32,7 @@ export class EventBasedMapObjectProvider extends AbstractServerProvider {
 
   update(model: EventBasedMapObject, retryCount = 1) {
     return this.http
-      .put(`${this.baseUrl}/${model._id}`, model.toServerModel())
+      .put(`${ this.baseUrl }/${ model._id }`, model.toServerModel())
       .pipe(
         retry(retryCount),
         catchError(this.handleError)
@@ -66,7 +62,7 @@ export class EventBasedMapObjectProvider extends AbstractServerProvider {
   getByQuery(searchEvent: SearchEvent) {
     console.log(searchEvent);
     return this.http
-      .post<any>(`${this.baseUrl}/search`, searchEvent.toServerModel())
+      .post<any>(`${ this.baseUrl }/search`, searchEvent.toServerModel())
       .map(res => {
         console.log(res);
         return res.data.map(o =>

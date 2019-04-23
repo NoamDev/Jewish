@@ -1,5 +1,5 @@
 export enum PrayerType {
-  Sacharit = "sacharit",
-  Minha = "minha",
-  Arvit = "arvit",
+  Sacharit = "שחרית",
+  Minha = "מנחה",
+  Arvit = "ערבית",
 }

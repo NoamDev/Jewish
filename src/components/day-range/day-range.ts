@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { range } from "lodash";
 import { AbstractValueAccessor, MakeProvider } from "../../common/component-helpers/abstract-value-accessor";
 import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 

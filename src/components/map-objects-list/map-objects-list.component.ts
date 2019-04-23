@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { EventBasedMapObject } from "../../common/models/map-objects/map-objects";
-import { FakeMapObject } from "../../common/data-faker/data-randomizer";
 import { Observable } from "rxjs/Observable";
 import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 

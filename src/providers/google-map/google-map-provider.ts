@@ -3,19 +3,17 @@ import GoogleMapsLoader = require("google-maps");
 import MapOptions = google.maps.MapOptions;
 import GeocoderResult = google.maps.GeocoderResult;
 import "rxjs/add/operator/filter";
-import {GoogleMap} from "./google-map";
+import { GoogleMap } from "./google-map";
 import "rxjs/add/operator/retry";
 import { LocationTrackingProvider } from "../location-tracking/location-tracking";
 import { merge } from "lodash-es";
-import { ToastController } from "ionic-angular";
 import LatLngLiteral = google.maps.LatLngLiteral;
 
 @Injectable()
 export class GoogleMapProvider {
   public isApiLoaded: boolean;
 
-  constructor(private locationTracking: LocationTrackingProvider, private toastCtrl: ToastController) {
-    console.log('Hello GoogleMapProvider Provider');
+  constructor(private locationTracking: LocationTrackingProvider) {
   }
 
   loadAPI(): Promise<void> {
@@ -54,7 +52,7 @@ export class GoogleMapProvider {
     mapOptions.center = await this.getMapCenterOrCurrentLocation(mapOptions);
 
     const googleMap = new google.maps.Map(mapDivElement, mapOptions || this.defaultMapOptions);
-    let mapManager = new GoogleMap(googleMap, this.toastCtrl, this.locationTracking);
+    let mapManager = new GoogleMap(googleMap, this.locationTracking);
 
     return mapManager;
   }

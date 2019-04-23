@@ -17,7 +17,7 @@ import { SearchResultsViewComponent } from './search-results-view/search-results
 import { DistanceNavigationButtonComponent } from './distance-navigation-button/distance-navigation-button';
 import { PipesModule } from "../pipes/pipes.module";
 
-import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 

@@ -2,8 +2,6 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 import { Geolocation, GeolocationOptions, Geoposition } from "@ionic-native/geolocation";
 import LatLngLiteral = google.maps.LatLngLiteral;
-import { Observable } from "rxjs/Observable";
-import { fromPromise } from "rxjs/observable/fromPromise";
 import "rxjs/add/operator/finally";
 import { Config } from "@app/env";
 
@@ -27,7 +25,7 @@ export class LocationTrackingProvider {
   async getCurrentLocation(options?: GeolocationOptions): Promise<Position> {
     this.stopWatchLocation();
 
-    return new Promise((resolve, reject) => {
+    return new Promise<Position>((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         pos => {
           this.lastKnownPosition = pos;

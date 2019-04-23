@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { TextInput, ViewController } from "ionic-angular";
 import { GoogleMapProvider } from "../../providers/google-map/google-map-provider";
 import { GoogleMapComponent } from "../google-map/google-map";
@@ -28,7 +28,7 @@ export class LocationPickerComponent implements OnDestroy, AfterViewInit {
   ) {
     console.log('Hello LocationPickerComponent Component');
     this.mapObject = new MapObject();
-    
+
     this.lngService.setLanguage();
 
     this.lngService.currentLng = localStorage.getItem('currentLng');

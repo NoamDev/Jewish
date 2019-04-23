@@ -1,12 +1,12 @@
-import {Event} from "../event/event";
-import {PrayerNosach} from "../common/enums/prayer-nosach";
-import {isArray} from "lodash-es";
-import {MapObjectTypes} from "../common/enums/map-object-types";
-import {CreateSynagogueOptions, SynagogueOptions} from "../common/enums/synagogue-option";
-import {PrayerEvent} from "../event/prayer-event";
-import {EventBasedMapObject} from "./map-objects";
-import {EventTypes} from "../common/enums/event-types";
-import {LessonEvent} from "../event/lesson-event";
+import { Event } from "../event/event";
+import { PrayerNosach } from "../common/enums/prayer-nosach";
+import { isArray } from "lodash-es";
+import { MapObjectTypes } from "../common/enums/map-object-types";
+import { CreateSynagogueOptions, SynagogueOptions } from "../common/enums/synagogue-option";
+import { PrayerEvent } from "../event/prayer-event";
+import { EventBasedMapObject } from "./map-objects";
+import { EventTypes } from "../common/enums/event-types";
+import { LessonEvent } from "../event/lesson-event";
 import LatLngLiteral = google.maps.LatLngLiteral;
 
 export class Synagogue extends EventBasedMapObject {
@@ -25,7 +25,7 @@ export class Synagogue extends EventBasedMapObject {
   fromServerModel(sm: any) {
     this._id = sm.syn_id;
     this.name = sm.name;
-    this.latLng = {lat: sm.location[0].coordinates[1], lng: sm.location[0].coordinates[0]};
+    this.latLng = { lat: sm.location.coordinates[1], lng: sm.location.coordinates[0] };
     this.userFriendlyAddress = sm.address;
     this.synagogueOptions = sm.externals;
     this.picture = sm.image;
@@ -49,7 +49,7 @@ export class Synagogue extends EventBasedMapObject {
       _id: this._id,
       name: this.name,
       address: this.userFriendlyAddress,
-      location: {coordinates: [this.latLng.lng, this.latLng.lat], type: "Point"},
+      location: { coordinates: [this.latLng.lng, this.latLng.lat], type: "Point" },
       nosach: this.primaryPrayerNosach,
       phone_number: this.phone,
       // image: this.picture,

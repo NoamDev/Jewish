@@ -6,7 +6,17 @@
 
 <ion-content class="form-background-color" [dir]="lngService.direction">
   <form #form="ngForm">
-    <select-search (onSynagoguePicked)="onSynagoguePicked($event)"></select-search>
+    <ion-item>
+      <ion-searchbar [(ngModel)]="synagogue.name" showCancelButton (ionInput)="onSynagogueNameChanged($event)"
+        placeholder="שם בית הכנסת" type="text" name="synagogueName">
+      </ion-searchbar>
+
+      <ion-list>
+        <ion-item *ngFor="let synagogue of SearchedSynagogues" (click)="onSynagoguePicked(synagogue)">
+          {{synagogue.name + '   ' }}<span style="color:gray">{{synagogue.userFriendlyAddress}}</span>
+        </ion-item>
+      </ion-list>
+    </ion-item>
 
     <ion-item>
       <ion-input #placeAutoCompleteInput fkPlaceAutoComplete name="location"

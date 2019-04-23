@@ -1,15 +1,16 @@
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams, ToastController} from 'ionic-angular';
-import {NgForm} from "@angular/forms";
-import {Synagogue} from "../../common/models/map-objects/synagogue";
-import {EventBasedMapObjectProvider} from "../../providers/server-providers/event-based-map-object.provider";
-import {Event} from "../../common/models/event/event";
-import {AddEventModalComponent} from "../../components/add-event-modal/add-event-modal";
-import {EventTypes} from "../../common/models/common/enums/event-types";
-import {StaticValidators} from "../../validators/static-validators";
-import {MapObject} from "../../common/models/map-objects/map-objects";
-import {PlaceAutoComplete} from "../../directives/place-autocomplete/place-autocomplete";
-import {LanguageServiceProvider} from '../../providers/language-service/language-service';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { IonicPage, ModalController, NavController, NavParams, ToastController } from 'ionic-angular';
+import { NgForm } from "@angular/forms";
+import { Synagogue } from "../../common/models/map-objects/synagogue";
+import { EventBasedMapObjectProvider } from "../../providers/server-providers/event-based-map-object.provider";
+import { Event } from "../../common/models/event/event";
+import { AddEventModalComponent } from "../../components/add-event-modal/add-event-modal";
+import { EventTypes } from "../../common/models/common/enums/event-types";
+import { StaticValidators } from "../../validators/static-validators";
+import { MapObject } from "../../common/models/map-objects/map-objects";
+import { PlaceAutoComplete } from "../../directives/place-autocomplete/place-autocomplete";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
+import { SearchEvent } from '../../common/models/event/search-event';
 
 @IonicPage()
 @Component({
@@ -23,6 +24,7 @@ export class AddSynagoguePage {
   @ViewChild('form') form: NgForm;
 
   phoneNumber: string;
+  SearchedSynagogues: Synagogue[] = [];
   synagogue: Synagogue;
   eventsToShow: string;
   phonePattern = /^\d{2,3}-?\d{7}$/;
@@ -68,7 +70,28 @@ export class AddSynagoguePage {
 
   }
 
+  async onSynagogueNameChanged(event) {
+    const text: string = event.target.value;
+    this.synagogue.name = text;
+    if (!text || text.length < 2) {
+      this.SearchedSynagogues = [];
+      return;
+    }
+    try {
+      let search = new SearchEvent();
+      search.name = text;
+      this.mapObjectProvider.getByQuery(search).subscribe(synagogues => {
+        this.SearchedSynagogues = synagogues;
+      });
+    }
+    catch (e) {
+      this.toastCtrl.create({ message: e.error, duration: 3000 }).present();
+    }
+  }
+
   onSynagoguePicked(syn: Synagogue) {
+    this.SearchedSynagogues = [];
+
     this.synagogue._id = syn._id;
     this.synagogue.name = syn.name;
     this.synagogue.phone = syn.phone;
@@ -138,7 +161,7 @@ export class AddSynagoguePage {
       .forEach(et => this.eventsDictionary[et] = this.synagogue.events.filter(ev => {
         return ev.type == et;
       }));
-      console.log(this.eventsDictionary);
+    console.log(this.eventsDictionary);
   }
 
   getEventTypes() {

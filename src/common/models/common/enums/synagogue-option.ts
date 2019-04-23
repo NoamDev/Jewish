@@ -8,7 +8,7 @@ export enum SynagogueOption {
 export function CreateSynagogueOptions(){
   let options = {};
   Object.keys(SynagogueOption).filter(opt => isNaN(opt as any)).forEach(k => {
-    options[k] = null;
+    options[k] = false;
   });
   return options;
 }

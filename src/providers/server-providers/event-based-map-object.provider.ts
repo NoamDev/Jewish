@@ -1,27 +1,26 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { AbstractServerProvider } from "./abstract-server-provider";
 import { catchError, retry } from "rxjs/operators";
 import "rxjs/add/operator/map";
-import {
-  EventBasedMapObject,
-  MapObject
-} from "../../common/models/map-objects/map-objects";
+import { EventBasedMapObject, MapObject } from "../../common/models/map-objects/map-objects";
 import { Observable } from "rxjs/Observable";
+import LatLngLiteral = google.maps.LatLngLiteral;
+import { FakeLatLngAround, FakeMapObject } from "../../common/data-faker/data-randomizer";
+import { of } from "rxjs/observable/of";
 import { SearchEvent } from "../../common/models/event/search-event";
 import { Config } from "@app/env";
 import { Synagogue } from "../../common/models/map-objects/synagogue";
 import { GoogleMapProvider } from "../google-map/google-map-provider";
-import LatLngLiteral = google.maps.LatLngLiteral;
+import { LocationTrackingProvider } from "../location-tracking/location-tracking";
 
 @Injectable()
 export class EventBasedMapObjectProvider extends AbstractServerProvider {
   readonly baseUrl = `${Config.serverBaseUrl}/synagogue`;
 
-  constructor(
-    private http: HttpClient,
-    private googleMapProvider: GoogleMapProvider
-  ) {
+  constructor(private http: HttpClient,
+    private googleMapProvider: GoogleMapProvider,
+    private locationProvider: LocationTrackingProvider) {
     super();
     console.log("Hello EventBasedMapObjectProvider Provider");
   }
@@ -58,6 +57,10 @@ export class EventBasedMapObjectProvider extends AbstractServerProvider {
     query.radiusRange = 0;
     query.maxRadiusRange = radius;
     return this.getByQuery(query);
+  }
+
+  async getSynagogueByName(name: string): Promise<any[]> {
+    return await this.http.get<any[]>(`${ this.baseUrl }/byName?name=${ name }`).toPromise();
   }
 
   getByQuery(searchEvent: SearchEvent) {

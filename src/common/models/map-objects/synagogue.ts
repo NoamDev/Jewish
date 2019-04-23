@@ -20,7 +20,7 @@ export class Synagogue extends EventBasedMapObject {
   phone: string[] = [];
   synagogueOptions: SynagogueOptions = CreateSynagogueOptions();
   picture: string;
-  comments: string;
+  comments: string = "";
 
   fromServerModel(sm: any) {
     this._id = sm.syn_id;
@@ -56,9 +56,7 @@ export class Synagogue extends EventBasedMapObject {
       minyans: this.events.filter(e => e.type == EventTypes.Prayer),
       lessons: this.events.filter(e => e.type == EventTypes.Lesson),
       comments: this.comments,
-      externals: {
-        accessibility: this.synagogueOptions
-      }
+      externals: this.synagogueOptions
     }
   }
 

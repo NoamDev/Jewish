@@ -60,12 +60,23 @@ export class AddSynagoguePage {
       this.toastCtrl.create({ message: 'בית הכנסת נוסף בהצלחה' });
     }
     catch (e) {
-      this.toastCtrl.create({ message: 'אירעה שגיאה.. בית הכנסת לא נוצר', duration: 3000 }).present();
+      this.toastCtrl.create({ message: e.error, duration: 3000 }).present();
     }
   }
 
   async pickImage() {
 
+  }
+
+  onSynagoguePicked(syn: Synagogue) {
+    this.synagogue._id = syn._id;
+    this.synagogue.name = syn.name;
+    this.synagogue.phone = syn.phone;
+    this.synagogue.primaryPrayerNosach = syn.primaryPrayerNosach;
+    this.synagogue.synagogueOptions = syn.synagogueOptions;
+    this.synagogue.userFriendlyAddress = syn.userFriendlyAddress;
+    this.synagogue.comments = syn.comments;
+    this.synagogue.events = syn.events;
   }
 
   openAddTimesModal() {
@@ -98,13 +109,15 @@ export class AddSynagoguePage {
   }
 
   onMapObjectChanged(mapObject: MapObject) {
+    if (!mapObject)
+      return;
     this.synagogue.userFriendlyAddress = mapObject.userFriendlyAddress;
     this.synagogue.latLng = mapObject.latLng;
     this.changeDetector.detectChanges();
   }
 
   isFormValid() {
-    const mapObject = { latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress } as MapObject;
+    const mapObject = { latLng: this.synagogue.latLng, userFriendlyAddress: this.synagogue.userFriendlyAddress } as MapObject
     let isMapObjectValid = StaticValidators.IsLocationValid(mapObject, true);
     return isMapObjectValid && this.form.valid;
   }

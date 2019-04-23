@@ -58,4 +58,3 @@ export class MyApp {
     this.navCtrl.push(UserSettingsPage);
   }
 }
-

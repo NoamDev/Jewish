@@ -6,10 +6,7 @@
 
 <ion-content class="form-background-color" [dir]="lngService.direction">
   <form #form="ngForm">
-    <ion-item>
-      <ion-input name="name" [(ngModel)]="synagogue.name" required placeholder="{{'name_of_synaogue'|translate}}"
-        clearInput [dir]="lngService.direction"></ion-input>
-    </ion-item>
+    <select-search (onSynagoguePicked)="onSynagoguePicked($event)"></select-search>
 
     <ion-item>
       <ion-input #placeAutoCompleteInput fkPlaceAutoComplete name="location" (placeSelected)="onMapObjectChanged($event)"

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { GoogleMapComponent } from './google-map/google-map';
 import { IonicModule } from "ionic-angular";
 import { LocateButtonComponent } from './locate-button/locate-button';
+import { SelectSearch } from './select-search/select-search';
 import { SearchEventButtonComponent } from './search-event-button/search-event-button';
 import { ApplicationMenuComponent } from './application-menu/application-menu';
 import { PrayerVersionOptionsComponent } from './prayer-version-options/prayer-version-options';
@@ -30,6 +31,7 @@ export function createTranslateLoader(http: HttpClient) {
     MapObjectsListComponent,
     MapObjectCardComponent,
     LocateButtonComponent,
+    SelectSearch,
     SearchEventButtonComponent,
     ApplicationMenuComponent,
     SynagogueOptionsComponent,
@@ -59,6 +61,7 @@ export function createTranslateLoader(http: HttpClient) {
     MapObjectsListComponent,
     MapObjectCardComponent,
     LocateButtonComponent,
+    SelectSearch,
     SearchEventButtonComponent,
     ApplicationMenuComponent,
     SynagogueOptionsComponent,

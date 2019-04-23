@@ -35,10 +35,7 @@ export class MapObjectCardComponent {
 
   constructor(
     private navCtrl: NavController,
-    public lngService: LanguageServiceProvider,
-  ) {
-    console.log('Hello EventCardComponent Component');
-
+    public lngService: LanguageServiceProvider) {
     this.lngService.setLanguage();
 
     this.lngService.currentLng = localStorage.getItem('currentLng');

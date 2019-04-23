@@ -1,17 +1,17 @@
-import {Component, ViewChild} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {SearchEventPage} from "../search-event/search-event";
-import {NoScrollDirective} from "../../directives/no-scroll/no-scroll";
-import {EventBasedMapObjectProvider} from "../../providers/server-providers/event-based-map-object.provider";
-import {EventBasedMapObject} from "../../common/models/map-objects/map-objects";
-import {Subject} from "rxjs/Subject";
-import {SearchResultsViewComponent} from "../../components/search-results-view/search-results-view";
-import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
-import {fromPromise} from "rxjs/observable/fromPromise";
+import { Component, ViewChild } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { SearchEventPage } from "../search-event/search-event";
+import { NoScrollDirective } from "../../directives/no-scroll/no-scroll";
+import { EventBasedMapObjectProvider } from "../../providers/server-providers/event-based-map-object.provider";
+import { EventBasedMapObject } from "../../common/models/map-objects/map-objects";
+import { Subject } from "rxjs/Subject";
+import { SearchResultsViewComponent } from "../../components/search-results-view/search-results-view";
+import { UserSettingsProvider } from "../../providers/user-settings/user-settings";
+import { fromPromise } from "rxjs/observable/fromPromise";
 import "rxjs/add/operator/zip";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
-import {LanguageServiceProvider} from '../../providers/language-service/language-service';
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({
   selector: 'page-home',
@@ -30,14 +30,10 @@ export class HomePage {
     public navCtrl: NavController,
     private mapObjectProvider: EventBasedMapObjectProvider,
     private userSettings: UserSettingsProvider,
-    public lngService: LanguageServiceProvider
-  ) {
+    public lngService: LanguageServiceProvider) {
     this.lngService.setLanguage();
 
-    console.log(this.lngService.currentLng);
-
     this.nearMapObjects = new Subject<EventBasedMapObject[]>();
-    console.log(this.nearMapObjects);
   }
 
   ngAfterViewInit() {
@@ -49,7 +45,6 @@ export class HomePage {
       }).subscribe(res => {
         if (res.length > 0)
           this.nearMapObjects.next(res);
-        console.log(this.nearMapObjects);
       });
   }
 
@@ -62,7 +57,6 @@ export class HomePage {
       }).subscribe(res => {
         if (res.length > 0)
           this.nearMapObjects.next(res);
-        console.log(this.nearMapObjects);
       });
   }
 

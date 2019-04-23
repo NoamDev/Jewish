@@ -26,17 +26,14 @@ export class LocationTrackingProvider {
     this.stopWatchLocation();
 
     return new Promise<Position>((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          this.lastKnownPosition = pos;
-          this.startWatchLocation();
-          resolve(pos);
-        },
-        err => {
-          this.startWatchLocation();
-          reject(err);
-        },
-        options);
+      this.geolocation.getCurrentPosition(options).then(pos => {
+        this.lastKnownPosition = pos;
+        this.startWatchLocation();
+        resolve(pos);
+      }).catch(err => {
+        this.startWatchLocation();
+        reject(err);
+      });
     });
   }
 

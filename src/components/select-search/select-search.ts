@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { ToastController } from 'ionic-angular';
 import { EventBasedMapObjectProvider } from "../../providers/server-providers/event-based-map-object.provider";
 import { Synagogue } from '../../common/models/map-objects/synagogue';
+import { SearchEvent } from '../../common/models/event/search-event';
 
 @Component({
     selector: 'select-search',
@@ -24,8 +25,11 @@ export class SelectSearch {
             return;
         }
         try {
-            let synagogues = await this.mapObjectProvider.getSynagogueByName(text);
-            this.SearchedSynagogues = synagogues.map(synagogueObject => new Synagogue().fromServerModel(synagogueObject));
+            let search = new SearchEvent();
+            search.name = text;
+            this.mapObjectProvider.getByQuery(search).subscribe(synagogues => {
+                this.SearchedSynagogues = synagogues;
+            });
         }
         catch (e) {
             this.toastCtrl.create({ message: e.error, duration: 3000 }).present();

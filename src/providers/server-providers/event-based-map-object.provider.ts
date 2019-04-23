@@ -18,7 +18,6 @@ export class EventBasedMapObjectProvider extends AbstractServerProvider {
   constructor(private http: HttpClient,
     private googleMapProvider: GoogleMapProvider) {
     super();
-    console.log("Hello EventBasedMapObjectProvider Provider");
   }
 
   create(mapObject: EventBasedMapObject, retryCount = 1) {
@@ -42,12 +41,7 @@ export class EventBasedMapObjectProvider extends AbstractServerProvider {
   getAllInRadius(
     latLng: LatLngLiteral,
     radius: number
-  ): Observable<EventBasedMapObject[]> {
-    // return of(new Array(5).fill(0).map(v => FakeMapObject()).map(v => {
-    //   const model = new EventBasedMapObject().fromServerModel(v);
-    //   model.latLng = FakeLatLngAround(latLng);
-    //   return model;
-    // }));
+  ): Observable<Synagogue[]> {
     let query = new SearchEvent();
     query.mapObject = new MapObject({ latLng: latLng });
     query.radiusRange = 0;
@@ -55,17 +49,11 @@ export class EventBasedMapObjectProvider extends AbstractServerProvider {
     return this.getByQuery(query);
   }
 
-  async getSynagogueByName(name: string): Promise<any[]> {
-    return await this.http.get<any[]>(`${ this.baseUrl }/byName?name=${ name }`).toPromise();
-  }
-
-  getByQuery(searchEvent: SearchEvent) {
-    console.log(searchEvent);
+  getByQuery(searchEvent: SearchEvent): Observable<Synagogue[]> {
     return this.http
       .post<any>(`${ this.baseUrl }/search`, searchEvent.toServerModel())
       .map(res => {
-        console.log(res);
-        return res.data.map(o =>
+        return res.data.map((o: any) =>
           new Synagogue().fromServerModel(o)
         ) as Synagogue[];
       })

@@ -13,11 +13,8 @@ export class DistanceNavigationButtonComponent {
 
   constructor(
     private launchNavigator: LaunchNavigator,
-    public lngService: LanguageServiceProvider
-  ) {
+    public lngService: LanguageServiceProvider) {
     this.lngService.setLanguage();
-    console.log(this.relativeDistance);
-    console.log(this.destination);
   }
 
   launchNavigation() {

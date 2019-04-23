@@ -1,15 +1,15 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import {NavController, NavParams} from "ionic-angular";
-import {EventBasedMapObject} from "../../common/models/map-objects/map-objects";
-import {Observable} from "rxjs/Observable";
-import {SynagogueDetailsPage} from "../../pages/synagogue-details/synagogue-details";
-import {GoogleMapComponent} from "../google-map/google-map";
-import {timeout} from "rxjs/operators";
-import {of} from "rxjs/observable/of";
+import { Component, Input, ViewChild } from '@angular/core';
+import { NavController, NavParams } from "ionic-angular";
+import { EventBasedMapObject } from "../../common/models/map-objects/map-objects";
+import { Observable } from "rxjs/Observable";
+import { SynagogueDetailsPage } from "../../pages/synagogue-details/synagogue-details";
+import { GoogleMapComponent } from "../google-map/google-map";
+import { timeout } from "rxjs/operators";
+import { of } from "rxjs/observable/of";
 import "rxjs/add/operator/merge";
-import {ReplaySubject} from "rxjs/ReplaySubject";
-import {InfoWindow} from "../../providers/google-map/info-window";
-import {LanguageServiceProvider} from '../../providers/language-service/language-service';
+import { ReplaySubject } from "rxjs/ReplaySubject";
+import { InfoWindow } from "../../providers/google-map/info-window";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({
   selector: 'fk-search-results-view',
@@ -38,9 +38,7 @@ export class SearchResultsViewComponent {
 
   constructor(private navParams: NavParams,
     private navCtrl: NavController,
-    public lngService: LanguageServiceProvider,
-  ) {
-    console.log('Hello SearchResultsViewComponent Component');
+    public lngService: LanguageServiceProvider) {
     this.lngService.setLanguage();
 
     this.lngService.currentLng = localStorage.getItem('currentLng');

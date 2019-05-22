@@ -1,14 +1,15 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import {PrayerNosach} from "../../common/models/common/enums/prayer-nosach";
-import {AbstractValueAccessor, MakeProvider} from "../../common/component-helpers/abstract-value-accessor";
-import {Select} from "ionic-angular";
+import { Component, Input, ViewChild } from '@angular/core';
+import { PrayerNosach } from "../../common/models/common/enums/prayer-nosach";
+import { AbstractValueAccessor, MakeProvider } from "../../common/component-helpers/abstract-value-accessor";
+import { Select } from "ionic-angular";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @Component({
   selector: 'fk-prayer-version-options',
   templateUrl: 'prayer-version-options.html',
   providers: [MakeProvider(PrayerVersionOptionsComponent)]
 })
-export class PrayerVersionOptionsComponent extends AbstractValueAccessor{
+export class PrayerVersionOptionsComponent extends AbstractValueAccessor {
 
   @ViewChild('selectComponent') private selectComponent: Select;
 
@@ -16,10 +17,10 @@ export class PrayerVersionOptionsComponent extends AbstractValueAccessor{
   allowMultiple: boolean;
 
   @Input()
-  title: string = "בחר נוסח תפילה";
+  title: string;
 
   @Input()
-  placeholder: string = "בחר נוסח";
+  placeholder: string;
 
   @Input()
   label: string;
@@ -27,17 +28,27 @@ export class PrayerVersionOptionsComponent extends AbstractValueAccessor{
   @Input()
   versions: string[];
 
-  constructor() {
+  constructor(
+    public lngService: LanguageServiceProvider,
+  ) {
     super();
+
+    this.lngService.setLanguage();
+
+    this.lngService.currentLng = localStorage.getItem('currentLng');
+    this.lngService.direction = localStorage.getItem('direction');
+    console.log(this.lngService);
+
     console.log('Hello PrayerVersionOptionsComponent Component');
     this.versions = Object.keys(PrayerNosach).map(key => PrayerNosach[key]);
+    this.versions = this.lngService.setArrayLanguage(this.versions);
   }
 
-  ngAfterViewInit(){
-    this.selectComponent.okText = "בחר";
-    this.selectComponent.cancelText = "בטל";
+  ngAfterViewInit() {
+    this.selectComponent.okText = this.lngService.getOneLanguage('select');
+    this.selectComponent.cancelText = this.lngService.getOneLanguage('void');
     this.selectComponent.selectOptions = {
-     title: this.title
+      title: this.title
     };
   }
 }

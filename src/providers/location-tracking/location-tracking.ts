@@ -1,17 +1,13 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {Subscription} from "rxjs/Subscription";
-import {Geolocation, GeolocationOptions, Geoposition} from "@ionic-native/geolocation";
+import { EventEmitter, Injectable } from '@angular/core';
+import { Subscription } from "rxjs/Subscription";
+import { Geolocation, GeolocationOptions, Geoposition } from "@ionic-native/geolocation";
 import LatLngLiteral = google.maps.LatLngLiteral;
-import {Observable} from "rxjs/Observable";
-import {fromPromise} from "rxjs/observable/fromPromise";
 import "rxjs/add/operator/finally";
-import {Config} from "@app/env";
+import { Config } from "@app/env";
 
 
 @Injectable()
 export class LocationTrackingProvider {
-
-  public currentLocationPromise: Promise<Geoposition>;
   private watchSubscription: Subscription;
 
   public onLocationChanged: EventEmitter<Geoposition>;
@@ -26,17 +22,19 @@ export class LocationTrackingProvider {
     this.startWatchLocation();
   }
 
-  async getCurrentLocation(options?: GeolocationOptions) {
+  async getCurrentLocation(options?: GeolocationOptions): Promise<Position> {
     this.stopWatchLocation();
-    this.currentLocationPromise = this.currentLocationPromise || this.geolocation.getCurrentPosition(options);
-    try{
-      this.lastKnownPosition = await this.currentLocationPromise;
-    }
-    finally {
-      this.currentLocationPromise = null;
-      this.startWatchLocation();
-    }
-    return this.lastKnownPosition;
+
+    return new Promise<Position>((resolve, reject) => {
+      this.geolocation.getCurrentPosition(options).then(pos => {
+        this.lastKnownPosition = pos;
+        this.startWatchLocation();
+        resolve(pos);
+      }).catch(err => {
+        this.startWatchLocation();
+        reject(err);
+      });
+    });
   }
 
   public geopositionToLatLngLiteral(geoposition: Geoposition) {
@@ -50,7 +48,7 @@ export class LocationTrackingProvider {
 
   private startWatchLocation() {
     this.watchSubscription =
-      this.geolocation.watchPosition({timeout: Config.watchLocationIntervalInMs})
+      this.geolocation.watchPosition({ timeout: Config.watchLocationIntervalInMs })
         .filter((p) => p.coords !== undefined)
         .subscribe((pos) => {
           this.lastKnownPosition = pos;

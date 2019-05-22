@@ -1,4 +1,4 @@
-<ion-item dir="rtl">
+<ion-item [dir]="lngService.direction">
   <ion-label stacked *ngIf="label">{{label}}</ion-label>
   <ion-select class="version-select" [(ngModel)]="value"
               [placeholder]="placeholder"

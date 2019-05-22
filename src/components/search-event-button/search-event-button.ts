@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, NavOptions} from "ionic-angular";
+import { NavController } from "ionic-angular";
 
 @Component({
   selector: 'fk-search-event-button',
@@ -12,7 +12,7 @@ export class SearchEventButtonComponent {
   }
 
   async goToSearchEventPage() {
-    await this.navController.push('SearchEventPage',{
+    await this.navController.push('SearchEventPage', {
       animation: 'transition',
       animate: true,
       duration: 500,

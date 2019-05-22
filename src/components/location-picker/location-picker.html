@@ -6,7 +6,7 @@
     <ion-input #PlaceAutoCompleteInput fkPlaceAutoComplete [map]="mapComponent?.map?.map"
                [inputElement]="placeAutoCompleteInput._native?.nativeElement"
                (placeSelected)="onAutoCompleteSelect($event)"
-               clearInput placeholder="בחר כתובת" dir="rtl"></ion-input>
+               clearInput placeholder="{{'select_an_address'|translate}}" [dir]="lngService.direction"></ion-input>
     <button item-end class="transparent">
       <ion-icon name="search"></ion-icon>
     </button>
@@ -17,8 +17,8 @@
   </div>
 
   <ion-row class="dark-footer">
-      <button class="cancel-button" (click)="onDismiss()">ביטול</button>
-      <button class="ok-button" (click)="onSubmit()">אישור</button>
+      <button class="cancel-button" (click)="onDismiss()">{{'cancel'|translate}}</button>
+      <button class="ok-button" (click)="onSubmit()">{{'ok'|translate}}</button>
   </ion-row>
 
 </ion-content>

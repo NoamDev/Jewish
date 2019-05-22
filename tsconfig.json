@@ -4,10 +4,7 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": [
-      "dom",
-      "es2015"
-    ],
+    "lib": ["dom", "es2015"],
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -17,15 +14,8 @@
       "@app/env": ["environments/environment"]
     }
   },
-  "include": [
-    "src/common/models/**/*.ts",
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts",
-    "src/**/__tests__/*.ts"
-  ],
+  "include": ["src/common/models/**/*.ts", "src/**/*.ts"],
+  "exclude": ["node_modules", "src/**/*.spec.ts", "src/**/__tests__/*.ts"],
   "compileOnSave": false,
   "atom": {
     "rewriteTsconfig": false

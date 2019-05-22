@@ -1,13 +1,14 @@
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, TextInput} from 'ionic-angular';
-import {NgForm} from "@angular/forms";
-import {SearchEvent} from "../../common/models/event/search-event";
-import {PlaceAutoComplete} from "../../directives/place-autocomplete/place-autocomplete";
-import {MapObject} from "../../common/models/map-objects/map-objects";
-import {EventBasedMapObjectProvider} from "../../providers/server-providers/event-based-map-object.provider";
-import {LocationTrackingProvider} from "../../providers/location-tracking/location-tracking";
-import {SearchResultsViewComponent} from "../../components/search-results-view/search-results-view";
-import {cloneDeep} from "lodash-es";
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AlertController, IonicPage, NavController, NavParams, TextInput } from 'ionic-angular';
+import { NgForm } from "@angular/forms";
+import { SearchEvent } from "../../common/models/event/search-event";
+import { PlaceAutoComplete } from "../../directives/place-autocomplete/place-autocomplete";
+import { MapObject } from "../../common/models/map-objects/map-objects";
+import { EventBasedMapObjectProvider } from "../../providers/server-providers/event-based-map-object.provider";
+import { LocationTrackingProvider } from "../../providers/location-tracking/location-tracking";
+import { SearchResultsViewComponent } from "../../components/search-results-view/search-results-view";
+import { cloneDeep } from "lodash-es";
+import { LanguageServiceProvider } from '../../providers/language-service/language-service';
 
 @IonicPage()
 @Component({
@@ -23,12 +24,20 @@ export class SearchEventPage {
   @ViewChild('form') form: NgForm;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private alertCtrl: AlertController,
-              private changeDetector: ChangeDetectorRef,
-              private locationProvider: LocationTrackingProvider,
-              private mapObjectProvider: EventBasedMapObjectProvider) {
+    public navParams: NavParams,
+    private alertCtrl: AlertController,
+    private changeDetector: ChangeDetectorRef,
+    private locationProvider: LocationTrackingProvider,
+    private mapObjectProvider: EventBasedMapObjectProvider,
+    public lngService: LanguageServiceProvider,
+  ) {
     this.searchEvent = new SearchEvent();
+
+    this.lngService.setLanguage();
+
+    this.lngService.currentLng = localStorage.getItem('currentLng');
+    this.lngService.direction = localStorage.getItem('direction');
+    
   }
 
   ionViewDidLoad() {
@@ -54,7 +63,7 @@ export class SearchEventPage {
     let search = cloneDeep(this.searchEvent);
     if (!search.mapObject.isPartiallyValid()) {
       if (this.locationProvider.lastKnownLatLng == null) {
-        this.alertCtrl.create({message: 'לא ניתן לזהות את מיקומך. יש להזין כתובת לחיפוש'}).present();
+        this.alertCtrl.create({ message: 'לא ניתן לזהות את מיקומך. יש להזין כתובת לחיפוש' }).present();
       }
       search.mapObject.latLng = this.locationProvider.lastKnownLatLng;
     }

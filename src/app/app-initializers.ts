@@ -3,9 +3,16 @@ import GoogleMapsLoader = require("google-maps");
 export function initializeGoogleMaps(){
   return () => {
     GoogleMapsLoader.KEY = "AIzaSyBCptJVdxT9qytWXFkm4cVfXa6qdDWOncI";
-    GoogleMapsLoader.LANGUAGE = 'he';
-    GoogleMapsLoader.REGION = 'IL';
+    if (typeof (localStorage.getItem("set_lng")) == "undefined" || localStorage.getItem("set_lng") == "" || localStorage.getItem("set_lng") == null) {
+      GoogleMapsLoader.LANGUAGE = 'en';
+      GoogleMapsLoader.REGION = 'GB';
+    } else {
+      GoogleMapsLoader.LANGUAGE = localStorage.getItem("set_lng");
+      GoogleMapsLoader.REGION = localStorage.getItem('set_location');
+    }
+    console.log("initializeGoogleMaps");
     GoogleMapsLoader.LIBRARIES = ['places'];
+    console.log(GoogleMapsLoader);
     return new Promise<void>(resolve => GoogleMapsLoader.load(() => {
       resolve();
     }));
@@ -14,9 +21,7 @@ export function initializeGoogleMaps(){
 
 export function initializeUserGeoposition(provider){
   return ()=>{
-    return new Promise((resolve, reject) => {
-      // provider.geolocation.getCurrentPosition(/*{timeout: 10000, maximumAge: 1209600000}*/)
-      //   .then(()=>resolve()).catch(()=>resolve());
+    return new Promise((resolve, reject) => {    
       resolve();
     });
   }

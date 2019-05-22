@@ -1,22 +1,23 @@
 <div id="modal-container">
-  <ion-card dir="rtl" class="card">
-    <form [formGroup]="form">
+  <ion-card [dir]="lngService.direction" class="card">
+    <form [formGroup]=" form">
 
       <ion-card-header>
 
-        <ion-row justify-content-between dir="ltr">
-          <button class="transparent" (click)="dismiss()"><h1>x</h1></button>
+        <ion-row justify-content-between dir="rtl">
+          <button class="transparent" (click)="dismiss()">
+            <h1>x</h1>
+          </button>
           <div class="time-value">
-            <label>הוספת אירוע</label>
+            <label>{{ 'add_event' | translate }}</label>
           </div>
         </ion-row>
 
         <ion-row>
           <ion-item>
-            <ion-label stacked>סוג האירוע</ion-label>
-            <ion-select [(ngModel)]="event.type" formControlName="eventType"
-                        (ionChange)="onEventTypeSelected($event)"
-                        okText="בחר" cancelText="בטל" placeholder="בחר אירוע">
+            <ion-label stacked>{{ 'event_type' | translate }}</ion-label>
+            <ion-select [(ngModel)]="event.type" formControlName="eventType" (ionChange)="onEventTypeSelected($event)"
+              okText="{{'select'|translate}}" cancelText="{{'void'|translate}}" placeholder="{{'select_an_event'|translate}}">
               <ion-option *ngFor="let option of eventTypes" [value]="option">{{option}}</ion-option>
             </ion-select>
           </ion-item>
@@ -28,15 +29,15 @@
 
         <ion-row *ngIf="event.type" [ngSwitch]="event.type">
           <ion-item *ngSwitchCase="'תפילה'">
-            <ion-label stacked>בחר תפילה</ion-label>
-            <ion-select [(ngModel)]="event.prayerType"
-                        formControlName="prayerType" okText="בחר" cancelText="בטל" placeholder="בחר תפילה">
+            <ion-label stacked>{{'choose_prayer'|translate}}</ion-label>
+            <ion-select [(ngModel)]="event.prayerType" formControlName="prayerType" okText="{{'select'|translate}}"
+              cancelText="{{'void'|translate}}" placeholder="{{'choose_prayer'|translate}}">
               <ion-option *ngFor="let prayerType of getPrayerTypes()">{{prayerType}}</ion-option>
             </ion-select>
           </ion-item>
           <ion-item *ngSwitchCase="'שיעור'">
-            <ion-label stacked>הזן נושא שיעור</ion-label>
-            <ion-input [(ngModel)]="event.title" placeholder="לדוגמה: דף יומי" formControlName="lessonTitle" ></ion-input>
+            <ion-label stacked>{{'enter_lesson_topic'|translate}}</ion-label>
+            <ion-input [(ngModel)]="event.title" placeholder="{{'example_daily_page'|translate}}" formControlName="lessonTitle"></ion-input>
           </ion-item>
         </ion-row>
 
@@ -45,28 +46,28 @@
 
             <ion-col>
               <ion-item>
-                <ion-label stacked>שעת התחלה</ion-label>
-                <ion-datetime formControlName="startsAt" [(ngModel)]="event.startTime"
-                              displayFormat="HH:mm" pickerFormat="HH:mm" placeholder="בחר שעה"></ion-datetime>
+                <ion-label stacked>{{'beginning_time'|translate}}</ion-label>
+                <ion-datetime formControlName="startsAt" [(ngModel)]="event.startTime" displayFormat="HH:mm"
+                  pickerFormat="HH:mm" placeholder="{{'select_time'|translate}}"></ion-datetime>
               </ion-item>
             </ion-col>
 
             <ion-col>
               <ion-item>
-                <ion-label stacked>שעת סיום (אם ידועה)</ion-label>
-                <ion-datetime formControlName="endsAt" [(ngModel)]="event.endTime"
-                              displayFormat="HH:mm" pickerFormat="HH:mm" placeholder="בחר שעה"></ion-datetime>
+                <ion-label stacked>{{'end_time_if_known'|translate}}</ion-label>
+                <ion-datetime formControlName="endsAt" [(ngModel)]="event.endTime" displayFormat="HH:mm" pickerFormat="HH:mm"
+                  placeholder="{{'select_time'|translate}}"></ion-datetime>
               </ion-item>
             </ion-col>
 
           </ion-row>
         </ion-grid>
 
-        <ion-label>ימים</ion-label>
+        <ion-label>{{'days'|translate}}</ion-label>
         <fk-day-range formControlName="repeatedDays" [(ngModel)]="event.repeatedDays"></fk-day-range>
         <ion-row class="submit-button-container">
-          <button ion-button type="button" (click)="onFormSubmitted()"
-                  color="dark" class="submit-button" [disabled]="!form.valid">+ הוסף זמנים</button>
+          <button ion-button type="button" (click)="onFormSubmitted()" color="dark" class="submit-button" [disabled]="!form.valid">+
+            {{'add_times'|translate}}</button>
         </ion-row>
       </ion-card-content>
     </form>

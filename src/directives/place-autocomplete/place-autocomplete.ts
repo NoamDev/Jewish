@@ -1,12 +1,4 @@
-import {
-  AfterContentInit, ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output
-} from '@angular/core';
+import {AfterContentInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {GoogleMapProvider} from "../../providers/google-map/google-map-provider";
 import {MapObject} from "../../common/models/map-objects/map-objects";
 import Autocomplete = google.maps.places.Autocomplete;

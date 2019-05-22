@@ -8,7 +8,7 @@ export enum SynagogueOption {
 export function CreateSynagogueOptions(){
   let options = {};
   Object.keys(SynagogueOption).filter(opt => isNaN(opt as any)).forEach(k => {
-    options[k] = null;
+    options[k] = false;
   });
   return options;
 }
@@ -20,12 +20,12 @@ export type SynagogueOptions = {
 export function TranslateSynagogueOption(option: SynagogueOption){
   switch (option){
     case SynagogueOption.DisabledAccess:
-      return "נגישות לנכים";
+      return "disabled_access";
     case SynagogueOption.Mikve:
-      return "מקווה";
+      return "mikve";
     case SynagogueOption.Parking:
-      return "חנייה";
+      return "parking";
     case SynagogueOption.Shtiblach:
-      return "שטיבלך";
+      return "stiebelach";
   }
 }

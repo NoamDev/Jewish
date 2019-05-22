@@ -1,24 +1,32 @@
 <ion-header no-border>
   <ion-navbar color="white">
-    <ion-title text-center>הגדרות</ion-title>
+    <ion-title text-center>{{ 'settings' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
-
-<ion-content padding dir="rtl">
+<ion-content padding [dir]="lngService.direction">
   <div id="settings">
     <ion-card>
       <ion-item>
-        <ion-label stacked>
-          רדיוס חיפוש בתי כנסת בעמוד הבית
+        <ion-label stacked style="align-self:auto">
+          {{'search_radius'|translate}}
           <span> - {{currentSettings.rangeInHomePage.value}}</span>
         </ion-label>
         <ion-range [min]="1" [max]="25" [pin]="true" [disabled]="currentSettings.rangeInHomePage.disabled"
-                   (ngModelChange)="saveRange($event)"
-                   [(ngModel)]="currentSettings.rangeInHomePage.value" dir="ltr">
+          (ngModelChange)="saveRange($event)" [(ngModel)]="currentSettings.rangeInHomePage.value" dir="ltr">
+          <!-- [dir]="lngService.direction" -->
           <ion-label range-left>1</ion-label>
           <ion-label range-right>25</ion-label>
         </ion-range>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item [dir]="lngService.direction">
+        <ion-label>{{'select_language'|translate}}</ion-label>
+        <ion-select [(ngModel)]="lngSelect" (ionChange)="selectLanguage()">
+          <ion-option value="he">{{'hebrew'|translate}}</ion-option>
+          <ion-option value="en">{{'english'|translate}}</ion-option>
+        </ion-select>
       </ion-item>
     </ion-card>
   </div>

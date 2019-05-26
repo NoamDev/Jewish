@@ -150,7 +150,7 @@ export class AddSynagoguePage {
   }
 
   removeEvent(event: Event) {
-    let index = this.eventsDictionary[event.type].findIndex(ev => ev == ev);
+    let index = this.eventsDictionary[event.type].findIndex(ev => ev == event );
     this.eventsDictionary[event.type].splice(index, 1);
     this.synagogue.events.splice(this.synagogue.events.findIndex(ev => ev == event), 1);
   }

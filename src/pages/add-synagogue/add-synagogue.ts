@@ -59,10 +59,10 @@ export class AddSynagoguePage {
   async submitNewSynagogue() {
     try {
       await this.mapObjectProvider.create(this.synagogue).toPromise();
-      this.toastCtrl.create({ message: 'בית הכנסת נוסף בהצלחה' });
+      this.toastCtrl.create({ message: 'בית הכנסת נוסף בהצלחה', duration: 3000, showCloseButton:true }).present();
     }
     catch (e) {
-      this.toastCtrl.create({ message: e.error, duration: 3000 }).present();
+      this.toastCtrl.create({ message: e.error, duration: 3000, showCloseButton: true }).present();
     }
   }
 

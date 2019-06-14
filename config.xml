@@ -22,6 +22,12 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
+        <!--network security config: allow cleartext transport-->
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
+            <application android:networkSecurityConfig="@xml/network_security_config" />
+        </edit-config>
+        <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
+        <!--end of network security config-->
         <allow-intent href="market:*" />
         <allow-navigation href="http://192.168.2.108:8100" />
         <allow-navigation href="http://:8100" />
